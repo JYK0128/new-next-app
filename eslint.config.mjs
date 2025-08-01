@@ -39,6 +39,7 @@ const eslintConfig = [
 
       /* @stylistic - recommended */
       '@stylistic/semi': ['error', 'always'],
+      '@stylistic/quotes': ["error", "double"],
       '@stylistic/arrow-parens': ['error', 'always'],
       '@stylistic/no-multi-spaces': ['error',
         { ignoreEOLComments: true },
