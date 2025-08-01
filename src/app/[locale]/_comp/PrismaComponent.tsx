@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 
 
-export async function Component() {
+export async function PrismaComponent() {
   const users = await prisma.app_user.findMany();
 
   return (
