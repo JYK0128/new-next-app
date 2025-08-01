@@ -10,7 +10,7 @@ export const config = {
   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
   matcher: [
-    "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+    "/((?!api|trpc|graphql|_next|_vercel|.*\\..*).*)",
 
     // Match all pathnames within `{/:locale}/users`
     // "/([\\w-]+)?/users/(.+)",

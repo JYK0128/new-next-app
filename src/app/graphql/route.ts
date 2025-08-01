@@ -1,0 +1,16 @@
+import { ApolloServer } from "@apollo/server";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import type { NextRequest } from "next/server";
+
+import { resolvers, typeDefs } from "@/graphql";
+
+const server = new ApolloServer({
+  resolvers,
+  typeDefs,
+});
+
+const handler = startServerAndCreateNextHandler<NextRequest>(server, {
+  context: async (req) => ({ req }),
+});
+
+export { handler as GET, handler as POST };
