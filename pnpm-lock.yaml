@@ -61,9 +61,15 @@ devDependencies:
   eslint-config-next:
     specifier: 15.4.5
     version: 15.4.5(eslint@9.32.0)(typescript@5.8.3)
+  eslint-plugin-simple-import-sort:
+    specifier: ^12.1.1
+    version: 12.1.1(eslint@9.32.0)
   eslint-plugin-sonarjs:
     specifier: ^3.0.4
     version: 3.0.4(eslint@9.32.0)
+  eslint-plugin-unused-imports:
+    specifier: ^4.1.4
+    version: 4.1.4(eslint@9.32.0)
   tailwindcss:
     specifier: ^4
     version: 4.1.11
@@ -1860,6 +1866,14 @@ packages:
       string.prototype.repeat: 1.0.0
     dev: true
 
+  /eslint-plugin-simple-import-sort@12.1.1(eslint@9.32.0):
+    resolution: {integrity: sha512-6nuzu4xwQtE3332Uz0to+TxDQYRLTKRESSc2hefVT48Zc8JthmN23Gx9lnYhu0FtkRSL1oxny3kJ2aveVhmOVA==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 9.32.0
+    dev: true
+
   /eslint-plugin-sonarjs@3.0.4(eslint@9.32.0):
     resolution: {integrity: sha512-ftQcP811kRJNXapqpQXHErEoVOdTPfYPPYd7n3AExIPwv4qWKKHf4slFvXmodiOnfgy1Tl3waPZZLD7lcvJOtw==}
     peerDependencies:
@@ -1876,6 +1890,18 @@ packages:
       scslre: 0.3.0
       semver: 7.7.2
       typescript: 5.8.3
+    dev: true
+
+  /eslint-plugin-unused-imports@4.1.4(eslint@9.32.0):
+    resolution: {integrity: sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+      eslint: ^9.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+    dependencies:
+      eslint: 9.32.0
     dev: true
 
   /eslint-scope@8.4.0:

@@ -1,9 +1,12 @@
 import { includeIgnoreFile } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import stylistic from "@stylistic/eslint-plugin";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import sonarjs from "eslint-plugin-sonarjs";
+import unusedImports from "eslint-plugin-unused-imports";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,12 +17,37 @@ const compat = new FlatCompat({
 
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
-
 const eslintConfig = [
   includeIgnoreFile(gitignorePath),
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   stylistic.configs["recommended"],
   sonarjs.configs["recommended"],
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
+  {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
+    rules: {
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
   {
     rules: {
       /* eslint */
@@ -50,7 +78,7 @@ const eslintConfig = [
         { ignoreEOLComments: true },
       ],
       "@stylistic/no-multiple-empty-lines": ["error",
-        { max: 2, maxEOF: 1 },
+        { max: 2, maxBOF: 0, maxEOF: 1 },
       ],
       "@stylistic/object-property-newline": ["error",
         { allowAllPropertiesOnSameLine: true },
