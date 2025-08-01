@@ -5,7 +5,7 @@ import { useTRPC } from "@/lib/trpc";
 
 export function QueryComponent() {
   const trpc = useTRPC();
-  const { data = [] } = useQuery(trpc.post.getAll.queryOptions());
+  const { data = [] } = useQuery(trpc.post.getAll.queryOptions({}));
 
   return (
     <div>
