@@ -103,7 +103,7 @@ const eslintConfig = [
           ObjectExpression: { multiline: true, consistent: true },
           ObjectPattern: { multiline: true, consistent: true },
           ImportDeclaration: "never",
-          ExportDeclaration: "never",
+          ExportDeclaration: { multiline: true, consistent: true },
         },
       ],
       "@stylistic/jsx-self-closing-comp": ["error",
