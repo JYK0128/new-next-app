@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prisma:init": "npx prisma init --datasource-provider postgresql --output ../src/prisma",
+    "prisma:introspect": "npx prisma inspect",
+    "prisma:seed": "tsx prisma/seed.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "@tanstack/react-query": "^5.84.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.535.0",
@@ -18,6 +23,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.3.1",
     "@eslint/eslintrc": "^3",
     "@stylistic/eslint-plugin": "^5.2.2",
     "@tailwindcss/postcss": "^4",

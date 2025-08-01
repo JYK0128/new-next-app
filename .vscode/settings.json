@@ -1,0 +1,8 @@
+{
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@prisma", "@radix-ui"
+  ],
+  "javascript.preferences.autoImportFileExcludePatterns": [
+    "@prisma", "@radix-ui"
+  ]
+}

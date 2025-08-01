@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ai_model {
+  id              BigInt            @id @default(autoincrement())
+  provider_id     BigInt
+  category        String
+  name            String
+  description     String
+  created_at      DateTime          @db.Timestamp(6)
+  updated_at      DateTime          @db.Timestamp(6)
+  metadata        Json?
+  ai_provider     ai_provider       @relation(fields: [provider_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  channel_history channel_history[]
+}
+
+model ai_provider {
+  id          BigInt     @id @default(autoincrement())
+  country     String
+  name        String
+  description String
+  created_at  DateTime   @db.Timestamp(6)
+  updated_at  DateTime   @db.Timestamp(6)
+  metadata    Json?
+  ai_model    ai_model[]
+}
+
+model app_action {
+  id          BigInt     @id @default(autoincrement())
+  name        String
+  description String
+  path        String
+  router_id   BigInt
+  is_public   Boolean
+  created_at  DateTime   @db.Timestamp(6)
+  updated_at  DateTime   @db.Timestamp(6)
+  deleted_at  DateTime?  @db.Timestamp(6)
+  metadata    Json?
+  app_router  app_router @relation(fields: [router_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model app_router {
+  id          BigInt       @id @default(autoincrement())
+  name        String
+  description String
+  path        String
+  template    String
+  is_public   Boolean
+  created_at  DateTime     @db.Timestamp(6)
+  updated_at  DateTime     @db.Timestamp(6)
+  deleted_at  DateTime?    @db.Timestamp(6)
+  metadata    Json?
+  app_action  app_action[]
+}
+
+model app_user {
+  id                  String                @id @db.Uuid
+  email               String
+  nickname            String
+  blocked_until       DateTime?             @db.Timestamp(6)
+  last_login_at       DateTime?             @db.Timestamp(6)
+  last_logout_at      DateTime?             @db.Timestamp(6)
+  created_at          DateTime              @db.Timestamp(6)
+  updated_at          DateTime              @db.Timestamp(6)
+  deleted_at          DateTime?             @db.Timestamp(6)
+  metadata            Json?
+  channel_history     channel_history[]
+  channel_participant channel_participant[]
+  user_ai_model       user_ai_model[]
+  user_log            user_log[]
+}
+
+model channel {
+  id                  BigInt                @id @default(autoincrement())
+  name                String
+  description         String
+  password_encrypted  String
+  created_at          DateTime              @db.Timestamp(6)
+  updated_at          DateTime              @db.Timestamp(6)
+  deleted_at          DateTime?             @db.Timestamp(6)
+  channel_history     channel_history[]
+  channel_participant channel_participant[]
+}
+
+model channel_history {
+  id         BigInt   @id @default(autoincrement())
+  channel_id BigInt
+  user_id    String   @db.Uuid
+  model_id   BigInt
+  role       String
+  message    String
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  metadata   Json?
+  channel    channel  @relation(fields: [channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ai_model   ai_model @relation(fields: [model_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  app_user   app_user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model channel_participant {
+  id           BigInt    @id @default(autoincrement())
+  channel_id   BigInt
+  user_id      String    @db.Uuid
+  is_master    Boolean
+  muted_until  DateTime? @db.Timestamp(6)
+  banned_until DateTime? @db.Timestamp(6)
+  created_at   DateTime  @db.Timestamp(6)
+  updated_at   DateTime  @db.Timestamp(6)
+  deleted_at   DateTime? @db.Timestamp(6)
+  metadata     Json?
+  channel      channel   @relation(fields: [channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  app_user     app_user  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([channel_id, user_id])
+}
+
+model guestbook {
+  id         BigInt    @id @default(autoincrement())
+  nickname   String
+  comment    String
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
+  metadata   Json?
+}
+
+model user_ai_model {
+  id                BigInt   @id @default(autoincrement())
+  user_id           String   @db.Uuid
+  model_id          BigInt
+  api_endpoint      String
+  api_key_encrypted String
+  name              String
+  description       String
+  created_at        DateTime @db.Timestamp(6)
+  updated_at        DateTime @db.Timestamp(6)
+  app_user          app_user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_log {
+  id         BigInt    @id @default(autoincrement())
+  level      String
+  details    String?
+  user_id    String?   @db.Uuid
+  action     String
+  created_at DateTime  @db.Timestamp(6)
+  user_ip    String
+  user_agent String
+  metadata   Json?
+  app_user   app_user? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
