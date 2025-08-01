@@ -47,5 +47,12 @@ npx prisma introspect
 # prisma/cli 만들기
 npx prisma generate
 
-
 ```
+
+[다국어]<https://github.com/vercel/next.js/blob/canary/examples/i18n-routing/app/%5Blang%5D/page.tsx>
+
+<!-- 서버 -->
+  const t = await getTranslations("HomePage");
+
+<!-- 클라 -->
+  const t = useTranslations("welcome");

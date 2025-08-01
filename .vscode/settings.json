@@ -4,5 +4,7 @@
   ],
   "javascript.preferences.autoImportFileExcludePatterns": [
     "@prisma", "@radix-ui"
-  ]
+  ],
+  "i18n-ally.localesPaths": ["./src/i18n/messages"],
+  "i18n-ally.keystyle": "nested",
 }
