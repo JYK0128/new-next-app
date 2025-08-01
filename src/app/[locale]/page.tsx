@@ -1,25 +1,19 @@
-import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
-import { Component } from "@/app/[locale]/Component";
-import prisma from "@/lib/prisma";
+import { ClientComponent } from "@/app/[locale]/_comp/ClientComponent";
+import { Component } from "@/app/[locale]/_comp/Component";
+import { ServerComponent } from "@/app/[locale]/_comp/ServerComponent";
 
 export default async function Home() {
-  const users = await prisma.app_user.findMany();
-  const t = await getTranslations();
-
   return (
-    <div>
+    <div className="tw:flex tw:gap-2">
+      <Suspense fallback={<div>로딩중...</div>}>
+        <ServerComponent />
+      </Suspense>
+      <ClientComponent />
+
+      <div />
       <Component />
-      <div>
-        {t("welcome")}
-      </div>
-      <div>
-        {users.map((user) => (
-          <div key={user.id}>
-            {user.id}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

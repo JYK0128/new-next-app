@@ -112,6 +112,11 @@ const eslintConfig = [
           html: true,
         },
       ],
+      "react/function-component-definition": ["error",
+        {
+          namedComponents: "function-declaration",
+          unnamedComponents: "arrow-function",
+        }],
     },
   },
 ];

@@ -7,4 +7,5 @@
   ],
   "i18n-ally.localesPaths": ["./src/i18n/messages"],
   "i18n-ally.keystyle": "nested",
+  // "tailwindCSS.experimental.configFile": "src/app/globals.css",
 }
