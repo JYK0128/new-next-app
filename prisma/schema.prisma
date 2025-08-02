@@ -3,156 +3,171 @@ generator client {
   output   = "../src/prisma"
 }
 
+generator nexusPrisma {
+  provider = "nexus-prisma"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model ai_model {
-  id              BigInt            @id @default(autoincrement())
-  provider_id     BigInt
-  category        String
-  name            String
-  description     String
-  created_at      DateTime          @db.Timestamp(6)
-  updated_at      DateTime          @db.Timestamp(6)
-  metadata        Json?
-  ai_provider     ai_provider       @relation(fields: [provider_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  channel_history channel_history[]
+model AiModel {
+  id                BigInt            @id @default(autoincrement()) @map("id")
+  providerId        BigInt            @map("provider_id")
+  category          String            @map("category")
+  name              String            @map("name")
+  description       String            @map("description")
+  createdAt         DateTime          @db.Timestamp(6) @map("created_at")
+  updatedAt         DateTime          @db.Timestamp(6) @map("updated_at")
+  metadata          Json?             @map("metadata")
+  aiProvider        AiProvider        @relation(fields: [providerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  channelHistories  ChannelHistory[]  
+  @@map("ai_model")
 }
 
-model ai_provider {
-  id          BigInt     @id @default(autoincrement())
-  country     String
-  name        String
-  description String
-  created_at  DateTime   @db.Timestamp(6)
-  updated_at  DateTime   @db.Timestamp(6)
-  metadata    Json?
-  ai_model    ai_model[]
+model AiProvider {
+  id           BigInt     @id @default(autoincrement()) @map("id")
+  country      String     @map("country")
+  name         String     @map("name")
+  description  String     @map("description")
+  createdAt    DateTime   @db.Timestamp(6) @map("created_at")
+  updatedAt    DateTime   @db.Timestamp(6) @map("updated_at")
+  metadata     Json?      @map("metadata")
+  aiModels     AiModel[]  
+  @@map("ai_provider")
 }
 
-model app_action {
-  id          BigInt     @id @default(autoincrement())
-  name        String
-  description String
-  path        String
-  router_id   BigInt
-  is_public   Boolean
-  created_at  DateTime   @db.Timestamp(6)
-  updated_at  DateTime   @db.Timestamp(6)
-  deleted_at  DateTime?  @db.Timestamp(6)
-  metadata    Json?
-  app_router  app_router @relation(fields: [router_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model AppAction {
+  id           BigInt     @id @default(autoincrement()) @map("id")
+  name         String     @map("name")
+  description  String     @map("description")
+  path         String     @map("path")
+  routerId     BigInt     @map("router_id")
+  isPublic     Boolean    @map("is_public")
+  createdAt    DateTime   @db.Timestamp(6) @map("created_at")
+  updatedAt    DateTime   @db.Timestamp(6) @map("updated_at")
+  deletedAt    DateTime?  @db.Timestamp(6) @map("deleted_at")
+  metadata     Json?      @map("metadata")
+  appRouter    AppRouter  @relation(fields: [routerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("app_action")
 }
 
-model app_router {
-  id          BigInt       @id @default(autoincrement())
-  name        String
-  description String
-  path        String
-  template    String
-  is_public   Boolean
-  created_at  DateTime     @db.Timestamp(6)
-  updated_at  DateTime     @db.Timestamp(6)
-  deleted_at  DateTime?    @db.Timestamp(6)
-  metadata    Json?
-  app_action  app_action[]
+model AppRouter {
+  id           BigInt       @id @default(autoincrement()) @map("id")
+  name         String       @map("name")
+  description  String       @map("description")
+  path         String       @map("path")
+  template     String       @map("template")
+  isPublic     Boolean      @map("is_public")
+  createdAt    DateTime     @db.Timestamp(6) @map("created_at")
+  updatedAt    DateTime     @db.Timestamp(6) @map("updated_at")
+  deletedAt    DateTime?    @db.Timestamp(6) @map("deleted_at")
+  metadata     Json?        @map("metadata")
+  appActions   AppAction[]  
+  @@map("app_router")
 }
 
-model app_user {
-  id                  String                @id @db.Uuid
-  email               String
-  nickname            String
-  blocked_until       DateTime?             @db.Timestamp(6)
-  last_login_at       DateTime?             @db.Timestamp(6)
-  last_logout_at      DateTime?             @db.Timestamp(6)
-  created_at          DateTime              @db.Timestamp(6)
-  updated_at          DateTime              @db.Timestamp(6)
-  deleted_at          DateTime?             @db.Timestamp(6)
-  metadata            Json?
-  channel_history     channel_history[]
-  channel_participant channel_participant[]
-  user_ai_model       user_ai_model[]
-  user_log            user_log[]
+model AppUser {
+  id                   String                @id @db.Uuid @map("id")
+  email                String                @map("email")
+  nickname             String                @map("nickname")
+  blockedUntil         DateTime?             @db.Timestamp(6) @map("blocked_until")
+  lastLoginAt          DateTime?             @db.Timestamp(6) @map("last_login_at")
+  lastLogoutAt         DateTime?             @db.Timestamp(6) @map("last_logout_at")
+  createdAt            DateTime              @db.Timestamp(6) @map("created_at")
+  updatedAt            DateTime              @db.Timestamp(6) @map("updated_at")
+  deletedAt            DateTime?             @db.Timestamp(6) @map("deleted_at")
+  metadata             Json?                 @map("metadata")
+  channelHistories     ChannelHistory[]      
+  channelParticipants  ChannelParticipant[]  
+  userAiModels         UserAiModel[]         
+  userLogs             UserLog[]             
+  @@map("app_user")
 }
 
-model channel {
-  id                  BigInt                @id @default(autoincrement())
-  name                String
-  description         String
-  password_encrypted  String
-  created_at          DateTime              @db.Timestamp(6)
-  updated_at          DateTime              @db.Timestamp(6)
-  deleted_at          DateTime?             @db.Timestamp(6)
-  channel_history     channel_history[]
-  channel_participant channel_participant[]
+model Channel {
+  id                   BigInt                @id @default(autoincrement()) @map("id")
+  name                 String                @map("name")
+  description          String                @map("description")
+  passwordEncrypted    String                @map("password_encrypted")
+  createdAt            DateTime              @db.Timestamp(6) @map("created_at")
+  updatedAt            DateTime              @db.Timestamp(6) @map("updated_at")
+  deletedAt            DateTime?             @db.Timestamp(6) @map("deleted_at")
+  channelHistories     ChannelHistory[]      
+  channelParticipants  ChannelParticipant[]  
+  @@map("channel")
 }
 
-model channel_history {
-  id         BigInt   @id @default(autoincrement())
-  channel_id BigInt
-  user_id    String   @db.Uuid
-  model_id   BigInt
-  role       String
-  message    String
-  created_at DateTime @db.Timestamp(6)
-  updated_at DateTime @db.Timestamp(6)
-  metadata   Json?
-  channel    channel  @relation(fields: [channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ai_model   ai_model @relation(fields: [model_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  app_user   app_user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model ChannelHistory {
+  id         BigInt    @id @default(autoincrement()) @map("id")
+  channelId  BigInt    @map("channel_id")
+  userId     String    @db.Uuid @map("user_id")
+  modelId    BigInt    @map("model_id")
+  role       String    @map("role")
+  message    String    @map("message")
+  createdAt  DateTime  @db.Timestamp(6) @map("created_at")
+  updatedAt  DateTime  @db.Timestamp(6) @map("updated_at")
+  metadata   Json?     @map("metadata")
+  channel    Channel   @relation(fields: [channelId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  aiModel    AiModel   @relation(fields: [modelId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  appUser    AppUser   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("channel_history")
 }
 
-model channel_participant {
-  id           BigInt    @id @default(autoincrement())
-  channel_id   BigInt
-  user_id      String    @db.Uuid
-  is_master    Boolean
-  muted_until  DateTime? @db.Timestamp(6)
-  banned_until DateTime? @db.Timestamp(6)
-  created_at   DateTime  @db.Timestamp(6)
-  updated_at   DateTime  @db.Timestamp(6)
-  deleted_at   DateTime? @db.Timestamp(6)
-  metadata     Json?
-  channel      channel   @relation(fields: [channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  app_user     app_user  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model ChannelParticipant {
+  id           BigInt     @id @default(autoincrement()) @map("id")
+  channelId    BigInt     @map("channel_id")
+  userId       String     @db.Uuid @map("user_id")
+  isMaster     Boolean    @map("is_master")
+  mutedUntil   DateTime?  @db.Timestamp(6) @map("muted_until")
+  bannedUntil  DateTime?  @db.Timestamp(6) @map("banned_until")
+  createdAt    DateTime   @db.Timestamp(6) @map("created_at")
+  updatedAt    DateTime   @db.Timestamp(6) @map("updated_at")
+  deletedAt    DateTime?  @db.Timestamp(6) @map("deleted_at")
+  metadata     Json?      @map("metadata")
+  channel      Channel    @relation(fields: [channelId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  appUser      AppUser    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([channel_id, user_id])
+  @@unique([channelId, userId])
+  @@map("channel_participant")
 }
 
-model guestbook {
-  id         BigInt    @id @default(autoincrement())
-  nickname   String
-  comment    String
-  created_at DateTime  @db.Timestamp(6)
-  updated_at DateTime  @db.Timestamp(6)
-  deleted_at DateTime? @db.Timestamp(6)
-  metadata   Json?
+model Guestbook {
+  id         BigInt     @id @default(autoincrement()) @map("id")
+  nickname   String     @map("nickname")
+  comment    String     @map("comment")
+  createdAt  DateTime   @db.Timestamp(6) @map("created_at")
+  updatedAt  DateTime   @db.Timestamp(6) @map("updated_at")
+  deletedAt  DateTime?  @db.Timestamp(6) @map("deleted_at")
+  metadata   Json?      @map("metadata")
+  @@map("guestbook")
 }
 
-model user_ai_model {
-  id                BigInt   @id @default(autoincrement())
-  user_id           String   @db.Uuid
-  model_id          BigInt
-  api_endpoint      String
-  api_key_encrypted String
-  name              String
-  description       String
-  created_at        DateTime @db.Timestamp(6)
-  updated_at        DateTime @db.Timestamp(6)
-  app_user          app_user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model UserAiModel {
+  id               BigInt    @id @default(autoincrement()) @map("id")
+  userId           String    @db.Uuid @map("user_id")
+  modelId          BigInt    @map("model_id")
+  apiEndpoint      String    @map("api_endpoint")
+  apiKeyEncrypted  String    @map("api_key_encrypted")
+  name             String    @map("name")
+  description      String    @map("description")
+  createdAt        DateTime  @db.Timestamp(6) @map("created_at")
+  updatedAt        DateTime  @db.Timestamp(6) @map("updated_at")
+  appUser          AppUser   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("user_ai_model")
 }
 
-model user_log {
-  id         BigInt    @id @default(autoincrement())
-  level      String
-  details    String?
-  user_id    String?   @db.Uuid
-  action     String
-  created_at DateTime  @db.Timestamp(6)
-  user_ip    String
-  user_agent String
-  metadata   Json?
-  app_user   app_user? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model UserLog {
+  id         BigInt    @id @default(autoincrement()) @map("id")
+  level      String    @map("level")
+  details    String?   @map("details")
+  userId     String?   @db.Uuid @map("user_id")
+  action     String    @map("action")
+  createdAt  DateTime  @db.Timestamp(6) @map("created_at")
+  userIp     String    @map("user_ip")
+  userAgent  String    @map("user_agent")
+  metadata   Json?     @map("metadata")
+  appUser    AppUser?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("user_log")
 }
