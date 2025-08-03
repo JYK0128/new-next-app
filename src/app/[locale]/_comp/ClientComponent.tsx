@@ -14,6 +14,10 @@ export function ClientComponent() {
         {t("welcome")}
       </div>
       <div>
+        node:
+        {process.env.NODE_ENV}
+      </div>
+      <div>
         server:
         (Hydration 에러 발생)
       </div>

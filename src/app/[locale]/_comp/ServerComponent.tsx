@@ -19,6 +19,10 @@ export async function ServerComponent() {
         {t("welcome")}
       </div>
       <div>
+        node:
+        {process.env.NODE_ENV}
+      </div>
+      <div>
         server:
         {process.env.NEXT_ENV}
       </div>

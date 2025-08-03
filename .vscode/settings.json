@@ -1,9 +1,9 @@
 {
   "typescript.preferences.autoImportFileExcludePatterns": [
-    "@radix-ui"
+    "@radix-ui", "**/*generated*"
   ],
   "javascript.preferences.autoImportFileExcludePatterns": [
-    "@radix-ui"
+    "@radix-ui", "**/*generated*"
   ],
   "i18n-ally.localesPaths": ["./src/i18n/messages"],
   "i18n-ally.keystyle": "nested",

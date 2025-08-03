@@ -2,8 +2,8 @@
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { exec } from "child_process";
+import { promisify } from "util";
 
 const toCamelCase = (str: string): string =>
   str.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
@@ -51,13 +51,8 @@ function convertSchema(schema: string): string {
     }
 
     if (inModel && line.trim() === "}") {
-      const maxFieldLen = Math.max(...fields.map((f) => f.name.length), 0);
-      const maxTypeLen = Math.max(...fields.map((f) => f.type.length), 0);
-
       for (const f of fields) {
-        const namePad = " ".repeat(maxFieldLen - f.name.length + 2);
-        const typePad = " ".repeat(maxTypeLen - f.type.length + 2);
-        output += `${f.indent}${f.name}${namePad}${f.type}${typePad}${f.rest}\n`;
+        output += `${f.indent}${f.name} ${f.type} ${f.rest}\n`;
       }
 
       for (const extra of extras) {
@@ -105,14 +100,34 @@ function convertSchema(schema: string): string {
 }
 
 async function main() {
-  const inputPath = path.join(__dirname, "prisma", "schema.prisma");
-  const outputPath = path.join(__dirname, "prisma", "schema.formatted.prisma");
+  const execAsync = promisify(exec);
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const sourcePath = path.join(__dirname, "prisma", "schema.source.prisma");
+  const schemaPath = path.join(__dirname, "prisma", "schema.prisma");
 
   try {
-    const original = await fs.readFile(inputPath, "utf8");
+    /* Prisma Model 초기화 */
+    await fs.copyFile(sourcePath, schemaPath);
+    console.log("✅ Prisma - Model 초기화 완료!");
+
+    /* DB 동기화 */
+    await execAsync('prisma db pull');
+    console.log("✅ Prisma - DB 동기화 완료!");
+
+    /* Prisma 스키마 변경 */
+    const original = await fs.readFile(schemaPath, "utf8");
     const converted = convertSchema(original);
-    await fs.writeFile(outputPath, converted, "utf8");
-    console.log("✅ 변환 완료! ➜", outputPath);
+    await fs.writeFile(schemaPath, converted, "utf8");
+    console.log("✅ Prisma - Schema 변환 완료!");
+
+    /* Prisma 스키마 검사 */
+    await execAsync(`prisma format --schema=${schemaPath}`);
+    console.log("✅ Prisma - Format 완료!");
+    console.log("✨ prisma.schema ➜ ", schemaPath);
+
+    /* Prisma Client 생성 */
+    await execAsync(`prisma generate`);
+    console.log("🎉 Prisma - Client 생성 완료!");
   }
   catch (err) {
     console.error("❌ 에러 발생:", err);

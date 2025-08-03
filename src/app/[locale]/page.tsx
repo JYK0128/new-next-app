@@ -1,9 +1,6 @@
 import { Suspense } from "react";
 
-import { ClientComponent } from "@/app/[locale]/_comp/ClientComponent";
-import { PrismaComponent } from "@/app/[locale]/_comp/PrismaComponent";
-import { QueryComponent } from "@/app/[locale]/_comp/QueryComponent";
-import { ServerComponent } from "@/app/[locale]/_comp/ServerComponent";
+import { ClientComponent, GraphqlComponent, PrismaComponent, ServerComponent, TrpcComponent } from "@/app/[locale]/_comp";
 
 export default async function Home() {
   return (
@@ -16,7 +13,8 @@ export default async function Home() {
       <Suspense fallback={<div>로딩중...</div>}>
         <PrismaComponent />
       </Suspense>
-      <QueryComponent />
+      <TrpcComponent />
+      <GraphqlComponent />
     </div>
   );
 }
