@@ -1,9 +1,9 @@
 {
   "typescript.preferences.autoImportFileExcludePatterns": [
-    "@prisma", "@radix-ui"
+    "@radix-ui"
   ],
   "javascript.preferences.autoImportFileExcludePatterns": [
-    "@prisma", "@radix-ui"
+    "@radix-ui"
   ],
   "i18n-ally.localesPaths": ["./src/i18n/messages"],
   "i18n-ally.keystyle": "nested",
