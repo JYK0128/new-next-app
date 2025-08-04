@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 
-import { type GetUserQuery, graphql, type HelloQuery, request } from "@/lib/gql";
+import { graphql, request } from "@/lib/gql";
 
 
 const hello = graphql(/* GraphQL */ `
@@ -24,12 +24,12 @@ const getUser = graphql(/* GraphQL */ `
 export function GraphqlComponent() {
   const userId = "bd6661a6-4ddb-4686-87a2-c5853205054d";
 
-  useQuery<HelloQuery>({
+  useQuery({
     queryKey: ["hello"],
     queryFn: async () => request(hello),
   });
 
-  const { data } = useQuery<GetUserQuery>({
+  const { data } = useQuery({
     queryKey: ["user", userId],
     queryFn: async () => request(getUser, {
       id: userId,
