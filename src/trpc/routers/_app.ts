@@ -1,9 +1,9 @@
-import { postRouter } from "@/trpc/routers/post";
+import { userRouter } from "@/trpc/routers/user";
 import { router } from "@/trpc/trpc";
 
 
 export const appRouter = router({
-  post: postRouter,
+  user: userRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,5 +1,7 @@
+import prisma from "@/lib/prisma";
+
 export const createContext = async () => {
-  return { };
+  return { prisma };
 };
 
 export type Context = Awaited<ReturnType<typeof createContext>>;

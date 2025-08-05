@@ -1,4 +1,5 @@
 import SchemaBuilder from "@pothos/core";
+import DataloaderPlugin from "@pothos/plugin-dataloader";
 import PothosPrismaPlugin from "@pothos/plugin-prisma";
 import type PrismaTypes from "@pothos/plugin-prisma/generated";
 import { Prisma, type PrismaClient } from "@prisma/client";
@@ -24,7 +25,7 @@ export const builder = new SchemaBuilder<{
     UUID: ScalarType<UUID>
   }
 }>({
-  plugins: [PothosPrismaPlugin],
+  plugins: [PothosPrismaPlugin, DataloaderPlugin],
   prisma: {
     client: prisma,
     dmmf: Prisma.dmmf,

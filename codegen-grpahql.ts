@@ -18,6 +18,6 @@ const config: CodegenConfig = {
       },
     },
   },
-  watch: process.env.NODE_ENV === "development",
+  watch: process.env.NODE_ENV === "development" && ["./src/app/[locale]/**/*.tsx", "./src/graphql/schema/**/*.ts"],
 };
 export default config;

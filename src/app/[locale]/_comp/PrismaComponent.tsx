@@ -10,7 +10,8 @@ export async function PrismaComponent() {
       <div>
         {users.map((user) => (
           <div key={user.id}>
-            {user.id}
+            <div>{user.email}</div>
+            <div>{user.nickname}</div>
           </div>
         ))}
       </div>

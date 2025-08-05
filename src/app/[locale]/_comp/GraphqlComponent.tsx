@@ -4,15 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { graphql, request } from "@/lib/gql";
 
 
-const hello = graphql(/* GraphQL */ `
-  query Hello {
-    hello
-  }
-`);
-
-const getUser = graphql(/* GraphQL */ `
-  query GetUser($id: UUID!) {
-    user(input: { id: $id }) {
+const getUsers = graphql(/* GraphQL */ `
+  query GetUsers {
+    users {
       id
       email
       nickname
@@ -20,28 +14,24 @@ const getUser = graphql(/* GraphQL */ `
   }
 `);
 
-
 export function GraphqlComponent() {
-  const userId = "bd6661a6-4ddb-4686-87a2-c5853205054d";
-
-  useQuery({
-    queryKey: ["hello"],
-    queryFn: async () => request(hello),
-  });
-
   const { data } = useQuery({
-    queryKey: ["user", userId],
-    queryFn: async () => request(getUser, {
-      id: userId,
-    }),
+    queryKey: ["users", "gql"],
+    queryFn: async () => {
+      return request(getUsers);
+    },
   });
 
   return (
     <div>
       <div>GQL 테스트</div>
       <div>
-        {data?.user?.id}
-        {data?.user?.email}
+        {data?.users?.map((user) => (
+          <div key={user.id}>
+            <div>{user.email}</div>
+            <div>{user.nickname}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

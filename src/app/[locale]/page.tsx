@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { ClientComponent, GraphqlComponent, PrismaComponent, ServerComponent, TrpcComponent } from "@/app/[locale]/_comp";
+import { ApiComponent, ClientComponent, GraphqlComponent, PrismaComponent, ServerComponent, TrpcComponent } from "@/app/[locale]/_comp";
 
 export default async function Home() {
   return (
@@ -13,6 +13,7 @@ export default async function Home() {
       <Suspense fallback={<div>로딩중...</div>}>
         <PrismaComponent />
       </Suspense>
+      <ApiComponent />
       <TrpcComponent />
       <GraphqlComponent />
     </div>

@@ -18,6 +18,9 @@ dependencies:
   '@pothos/core':
     specifier: ^4.8.1
     version: 4.8.1(graphql@16.11.0)
+  '@pothos/plugin-dataloader':
+    specifier: ^4.4.3
+    version: 4.4.3(@pothos/core@4.8.1)(dataloader@2.2.3)(graphql@16.11.0)
   '@pothos/plugin-prisma':
     specifier: ^4.10.0
     version: 4.10.0(@pothos/core@4.8.1)(@prisma/client@5.22.0)(graphql@16.11.0)(typescript@5.8.3)
@@ -42,6 +45,9 @@ dependencies:
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
+  dataloader:
+    specifier: ^2.2.3
+    version: 2.2.3
   event-source-polyfill:
     specifier: ^1.0.31
     version: 1.0.31
@@ -51,6 +57,9 @@ dependencies:
   graphql-scalars:
     specifier: ^1.24.2
     version: 1.24.2(graphql@16.11.0)
+  lodash-es:
+    specifier: ^4.17.21
+    version: 4.17.21
   lucide-react:
     specifier: ^0.535.0
     version: 0.535.0(react@19.1.0)
@@ -113,6 +122,9 @@ devDependencies:
   '@types/event-source-polyfill':
     specifier: ^1.0.5
     version: 1.0.5
+  '@types/lodash-es':
+    specifier: ^4.17.12
+    version: 4.17.12
   '@types/node':
     specifier: ^20
     version: 20.19.9
@@ -2200,6 +2212,18 @@ packages:
       graphql: 16.11.0
     dev: false
 
+  /@pothos/plugin-dataloader@4.4.3(@pothos/core@4.8.1)(dataloader@2.2.3)(graphql@16.11.0):
+    resolution: {integrity: sha512-W80Cne0+IkoO/splip7ndrg9FRdHfaDoTPfwoZjJT7rGXb57kTGuQWDnm66O8363Z58jqdcVVfwwO2+EmkdEFw==}
+    peerDependencies:
+      '@pothos/core': '*'
+      dataloader: '2'
+      graphql: ^16.10.0
+    dependencies:
+      '@pothos/core': 4.8.1(graphql@16.11.0)
+      dataloader: 2.2.3
+      graphql: 16.11.0
+    dev: false
+
   /@pothos/plugin-prisma@4.10.0(@pothos/core@4.8.1)(@prisma/client@5.22.0)(graphql@16.11.0)(typescript@5.8.3):
     resolution: {integrity: sha512-uchgp8vSVdCZrNj7Iqp2mgIMRdjB0uPZdproK2Ubd/vI3mt6cHrSFcY5QcQxVvm3+jOK5K+eFIk9Ehg7lIPNrg==}
     hasBin: true
@@ -3082,6 +3106,16 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.17.20
+    dev: true
+
+  /@types/lodash@4.17.20:
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
     dev: true
 
   /@types/long@4.0.2:
@@ -4180,7 +4214,6 @@ packages:
 
   /dataloader@2.2.3:
     resolution: {integrity: sha512-y2krtASINtPFS1rSDjacrFgn1dcUuoREVabwlOGOe4SdxenREqwjwjElAdwvbGM7kgZz9a3KVicWR7vcz8rnzA==}
-    dev: true
 
   /debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -6117,6 +6150,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
