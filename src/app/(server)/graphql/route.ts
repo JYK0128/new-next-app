@@ -7,6 +7,7 @@ import prisma from "@/lib/prisma";
 
 const server = new ApolloServer({
   schema: gqlSchema,
+  introspection: process.env.NODE_ENV !== "production",
 });
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {
