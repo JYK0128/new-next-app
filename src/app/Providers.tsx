@@ -4,6 +4,7 @@ import { defaultShouldDehydrateQuery, QueryClientProvider } from "@tanstack/reac
 import type { PropsWithChildren } from "react";
 import SuperJSON from "superjson";
 
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { getQueryClient } from "@/lib/query";
 import { getTrpcClient, TRPCProvider } from "@/lib/trpc";
 
@@ -27,10 +28,12 @@ export function Providers({ children }: PropsWithChildren) {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-        {children}
-      </TRPCProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+          {children}
+        </TRPCProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

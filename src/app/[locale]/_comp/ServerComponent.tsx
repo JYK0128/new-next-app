@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
 
-
 async function fetchData() {
   // 2초 delay 시뮬레이션
   await new Promise((resolve) => setTimeout(resolve, 1000 * 2));
-  return "데이터 로딩 완료!";
+  if (Math.random() > 0.5) {
+    throw Error("hi");
+  }
 }
 
 export async function ServerComponent() {

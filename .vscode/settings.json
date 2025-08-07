@@ -1,9 +1,9 @@
 {
   "typescript.preferences.autoImportFileExcludePatterns": [
-    "@radix-ui", "**/*generated*"
+    "@radix-ui", "**/*generated*", "next/router"
   ],
   "javascript.preferences.autoImportFileExcludePatterns": [
-    "@radix-ui", "**/*generated*"
+    "@radix-ui", "**/*generated*", "next/router"
   ],
   "i18n-ally.localesPaths": ["./src/i18n/messages"],
   "i18n-ally.keystyle": "nested",

@@ -102,7 +102,7 @@ function convertSchema(schema: string): string {
 async function main() {
   const execAsync = promisify(exec);
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const sourcePath = path.join(__dirname, "prisma", "schema.source.prisma");
+  const sourcePath = path.join(__dirname, "prisma", "schema.base.prisma");
   const schemaPath = path.join(__dirname, "prisma", "schema.prisma");
 
   try {
