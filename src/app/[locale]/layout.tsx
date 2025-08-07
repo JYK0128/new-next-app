@@ -5,7 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 
-import { Providers } from "@/app/Providers";
+import { Providers } from "@/app/providers";
 import { routing } from "@/i18n/routing";
 
 const geistSans = Geist({
