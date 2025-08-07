@@ -6,6 +6,12 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       readonly DATABASE_URL: string
+      readonly NEXT_PUBLIC_ENV: string
+      readonly NEXT_SITE_DOMAIN: string
+
+      readonly AUTH_KEYCLOAK_ID: string
+      readonly AUTH_KEYCLOAK_SECRET: string
+      readonly AUTH_KEYCLOAK_ISSUER: string
     }
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 
 
@@ -11,16 +12,21 @@ export default function Error({ reset }: {
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
+  const t = useTranslations();
+
+  const onRefresh = () => {
+    router.refresh();
+    startTransition(reset);
+  };
+
 
   return (
     <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => {
-        router.refresh();
-        startTransition(reset);
-      }}
-      >
-        Try again
+      <h2>
+        {t("error")}
+      </h2>
+      <button onClick={onRefresh}>
+        {t("refresh")}
       </button>
     </div>
   );

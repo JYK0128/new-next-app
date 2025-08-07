@@ -1,3 +1,5 @@
 {
+  "error": "There was an error!",
+  "refresh": "Refresh",
   "welcome": "Welcome to Next.js!"
 }

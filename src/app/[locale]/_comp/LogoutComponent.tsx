@@ -1,13 +1,14 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useTransition } from "react";
 
-export function LoginComponent() {
+
+export function LogoutComponent() {
   const [isPending, startTransition] = useTransition();
 
-  const handleLogin = () => {
+  const handleLogout = () => {
     startTransition(async () => {
-      const res = await signIn("keycloak", {
+      const res = await signOut({
         redirect: false,
         callbackUrl: "http://localhost:3000",
       });
@@ -20,8 +21,8 @@ export function LoginComponent() {
 
   return (
     <div>
-      <button onClick={handleLogin} disabled={isPending}>
-        {isPending ? "Signing..." : "SignIn with Keycloak"}
+      <button onClick={handleLogout} disabled={isPending}>
+        {isPending ? "Signing out..." : "SignOut with Keycloak"}
       </button>
     </div>
   );

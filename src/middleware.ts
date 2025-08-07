@@ -1,18 +1,15 @@
+import type { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
+import { auth } from "@/auth";
 import { routing } from "@/i18n/routing";
 
-
-export default createMiddleware(routing);
+export default auth(async (req: NextRequest) => {
+  return createMiddleware(routing)(req);
+});
 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
   matcher: [
     "/((?!api|trpc|graphql|_next|_vercel|.*\\..*).*)",
-
-    // Match all pathnames within `{/:locale}/users`
-    // "/([\\w-]+)?/users/(.+)",
   ],
 };
