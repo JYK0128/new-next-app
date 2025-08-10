@@ -8,14 +8,7 @@ export function LogoutComponent() {
 
   const handleLogout = () => {
     startTransition(async () => {
-      const res = await signOut({
-        redirect: false,
-        callbackUrl: "http://localhost:3000",
-      });
-
-      if (res?.url) {
-        window.location.href = res.url;
-      }
+      await signOut();
     });
   };
 

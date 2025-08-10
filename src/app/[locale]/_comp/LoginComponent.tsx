@@ -7,14 +7,7 @@ export function LoginComponent() {
 
   const handleLogin = () => {
     startTransition(async () => {
-      const res = await signIn("keycloak", {
-        redirect: false,
-        callbackUrl: "http://localhost:3000",
-      });
-
-      if (res?.url) {
-        window.location.href = res.url;
-      }
+      await signIn("keycloak");
     });
   };
 
