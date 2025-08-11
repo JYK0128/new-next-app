@@ -6,7 +6,7 @@ export async function GET() {
   const session = await auth();
 
   if (!session?.user?.id_token) {
-    return NextResponse.redirect(new URL("/error?reason=no-session", process.env.NEXT_SITE_DOMAIN));
+    return NextResponse.redirect(process.env.NEXT_SITE_DOMAIN);
   }
 
   const signoutURL = new URL(`${process.env.AUTH_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`);
