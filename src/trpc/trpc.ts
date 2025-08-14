@@ -1,4 +1,4 @@
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import SuperJSON from "superjson";
 import type { OpenApiMeta } from "trpc-to-openapi";
 
@@ -12,4 +12,14 @@ const t = initTRPC
 
 export const router = t.router;
 export const mergeRouters = t.mergeRouters;
-export const procedure = t.procedure;
+export const publicProcedure = t.procedure;
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  const { user } = ctx;
+
+  if (!user?.id_token) throw new TRPCError({
+    code: "UNAUTHORIZED",
+    message: "invalid token",
+  });
+
+  return next({ ctx: { ...ctx, user } });
+});

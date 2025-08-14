@@ -1,10 +1,10 @@
 import type { AppUser } from "@prisma/client";
 import { z } from "zod";
 
-import { procedure, router } from "@/trpc/trpc";
+import { publicProcedure, router } from "@/trpc/trpc";
 
 export const userRouter = router({
-  getAll: procedure
+  getAll: publicProcedure
     .meta({
       openapi: {
         method: "GET",
