@@ -35,15 +35,16 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang={locale}
+    >
+      <body className={`${geistSans.variable} ${geistMono.variable} tw:antialiased`}>
         <NextIntlClientProvider>
           <Providers>
             {children}
           </Providers>
         </NextIntlClientProvider>
+        <div id="portal" />
       </body>
     </html>
   );

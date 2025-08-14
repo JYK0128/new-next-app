@@ -1,5 +1,6 @@
 @import "tailwindcss" prefix(tw);
 @import "tw-animate-css";
+@plugin 'tailwind-scrollbar';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -112,11 +113,47 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* 커스텀 설정 */
+@utility scroll-y {
+  scrollbar-gutter: stable;
+  @apply tw:overflow-hidden;
+  &:hover {
+    @apply tw:overflow-y-auto;
+  }
+}
+
+@utility scroll-x {
+  scrollbar-gutter: stable both-edges;
+  @apply tw:overflow-hidden;
+  &:hover {
+    @apply tw:overflow-x-auto;
+  }
+}
+
 @layer base {
   * {
     @apply tw:border-border tw:outline-ring/50;
   }
   body {
     @apply tw:bg-background tw:text-foreground;
+  }
+
+  * {
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  *:not(button) {
+    @apply 
+      tw:scrollbar-thin
+      tw:scroll-smooth
+      tw:scrollbar-thumb-primary
+      tw:scrollbar-track-secondary;
+  }
+  html, body, #root {
+    @apply 
+      tw:size-full
+      tw:overflow-hidden;
   }
 }
