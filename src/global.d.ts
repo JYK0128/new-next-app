@@ -19,6 +19,12 @@ declare global {
   }
 }
 
+declare module "react" {
+  function forwardRef<T, P = object>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+}
+
 declare module "next-auth" {
   interface User extends DefaultUser {
     id_token?: string
@@ -43,4 +49,12 @@ declare module "@trpc/client" {
   interface OperationContext {
     stream: boolean
   }
+}
+
+// React Hook Form 추가 타입
+declare module "react-hook-form" {
+  type FieldPathValue<TFieldValues extends FieldValues, TName extends keyof TFieldValues>
+   = TFieldValues[TName] extends (infer U)[]
+     ? U
+     : TFieldValues[TName];
 }

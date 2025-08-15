@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Locale } from "next-intl";
 import { useRef } from "react";
 
-import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
+import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 export default function Header() {

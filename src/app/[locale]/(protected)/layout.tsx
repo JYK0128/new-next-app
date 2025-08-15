@@ -13,6 +13,9 @@ export default async function Layout({ children }: PropsWithChildren) {
 
   return (
     <div id="root" className="tw:grid tw:grid-rows-[auto_1fr_auto]">
+      <header>
+        header
+      </header>
       <div>
         {children}
       </div>

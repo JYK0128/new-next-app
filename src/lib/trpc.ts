@@ -1,5 +1,4 @@
 import { createTRPCClient, createWSClient, httpBatchLink, httpBatchStreamLink, httpLink, httpSubscriptionLink, isNonJsonSerializable, loggerLink, splitLink } from "@trpc/client";
-import { defaultTransformer } from "@trpc/server/unstable-core-do-not-import";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import SuperJSON from "superjson";
@@ -74,7 +73,10 @@ const getTrpcClientInner = () => createTRPCClient<AppRouter>({
             headers: () => ({
               Authorization: token && `Bearer ${token}`,
             }),
-            transformer: defaultTransformer,
+            transformer: {
+              serialize: (data) => data,
+              deserialize: SuperJSON.deserialize,
+            },
           }),
           false: httpBatchLink({
             url: `${baseURL}/trpc`,

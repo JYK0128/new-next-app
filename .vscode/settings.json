@@ -8,7 +8,9 @@
   "i18n-ally.localesPaths": ["./src/i18n/messages"],
   "i18n-ally.keystyle": "nested",
   "exportall.config.folderListener": [
-    "/src/components/ui"
+    "/src/components/ui",
+    "/src/components/custom",
+    "/src/components/shadcn"
   ],
   // "tailwindCSS.experimental.configFile": "src/app/globals.css",
 }
