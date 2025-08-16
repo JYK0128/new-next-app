@@ -1,8 +1,7 @@
-import { type CSSProperties, ForwardedRef, forwardRef, useEffect } from "react";
+import { type CSSProperties, ForwardedRef, forwardRef } from "react";
 import { FieldPath, FieldValues, UseControllerProps } from "react-hook-form";
-import lang from "suneditor/src/lang";
 import SunEditorCore from "suneditor/src/lib/core";
-import SunEditor, { buttonList } from "suneditor-react";
+import SunEditor from "suneditor-react";
 import type { SunEditorReactProps } from "suneditor-react/dist/types/SunEditorReactProps";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/form";
@@ -45,17 +44,6 @@ export const FormEditor = forwardRef(
       setEditorRef(editor);
     };
 
-    useEffect(() => {
-      if (editorRef.current) {
-        editorRef.current.setOptions({
-          buttonList: buttonList.complex,
-          lang: lang.ko,
-          placeholder: "내용을 입력해주세요.",
-          resizeEnable: false,
-        });
-      }
-    }, [editorRef]);
-
     return (
       <FormField
         name={name}
@@ -76,7 +64,7 @@ export const FormEditor = forwardRef(
                 style={{ width: labelWidth }}
                 className="tw:flex tw:items-center"
               >
-                <FormLabel>
+                <FormLabel onClick={() => editorRef.current?.core.focus()}>
                   {label}
                   {required && (
                     <sup className="tw:text-red-600"> *</sup>

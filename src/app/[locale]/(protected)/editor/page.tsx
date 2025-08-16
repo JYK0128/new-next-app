@@ -1,13 +1,16 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
 import { type FieldValues, type SubmitHandler, useForm } from "react-hook-form";
+import { buttonList } from "suneditor-react";
 import { z } from "zod";
 
 import { Button } from "@/components";
 import { FormController, FormInput } from "@/components/custom";
 import { FormEditor } from "@/components/custom/FormEditor";
 import { useTRPC } from "@/lib/trpc";
+import { compress } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
@@ -18,13 +21,16 @@ const fields = z.object({
 });
 
 export default function Page() {
+  const locale = useLocale();
+  const t = useTranslations();
+
   const form = useForm({
     resolver: zodResolver(fields.removeDefault()),
     defaultValues: fields._def.defaultValue(),
   });
 
   const trpc = useTRPC();
-  const { mutateAsync } = useMutation(trpc.file.upload.mutationOptions());
+  const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
 
   const onSubmit: SubmitHandler<FieldValues> = (fields, evt) => {
     const { submitter } = (evt?.nativeEvent ?? {}) as SubmitEvent;
@@ -32,7 +38,6 @@ export default function Page() {
 
     switch (submitter.name) {
       case "submit": {
-        console.log(fields);
         break;
       }
     }
@@ -55,17 +60,30 @@ export default function Page() {
         name="content"
         orientation="vertical"
         label="내용"
-        onImageUploadBefore={(files, info, uploadHandler) => {
-          const file = files[0];
-          const formData = new FormData();
-          formData.set("file", file);
 
-          mutateAsync(formData)
-            .then((res) => (console.log(res), uploadHandler(res)))
-            .catch((err: Error) => uploadHandler({
-              errorMessage: err.message,
-              result: [],
-            }));
+        lang={locale}
+        placeholder={t("editor.placeholder")}
+        setOptions={{
+          buttonList: buttonList.complex,
+          resizeEnable: false,
+        }}
+        onImageUploadBefore={(files, _, uploadHandler) => {
+          const file = files[0];
+          // "image/jpeg", "image/jpg", "image/png" 압축
+          compress(file).then((compressed) => {
+            const formData = new FormData();
+            formData.set("file", compressed);
+
+            // uploadHandler가 업로드 프로세스 처리
+            uploadFile(formData)
+              .then((res) => uploadHandler(res))
+              .catch((err: Error) => uploadHandler({
+                errorMessage: err.message,
+                result: [],
+              }));
+          });
+
+          // 기존 업로드 프로세스 무시
           return false;
         }}
       />
