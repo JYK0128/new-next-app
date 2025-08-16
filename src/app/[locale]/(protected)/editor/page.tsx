@@ -66,6 +66,17 @@ export default function Page() {
         setOptions={{
           buttonList: buttonList.complex,
           resizeEnable: false,
+          font: [
+            "Pretendard",
+            "Nanum Gothic Coding",
+            "Nanum Brush Script",
+            "Nanum Pen Script",
+            "Nanum Myeongjo",
+            "Nanum Gothic",
+            "Noto Sans KR",
+            "Noto Serif KR",
+          ],
+          defaultStyle: "font-family: Pretendard; font-size: 16px;",
         }}
         onImageUploadBefore={(files, _, uploadHandler) => {
           const file = files[0];

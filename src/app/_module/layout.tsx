@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 
-import Header from "@/app/[locale]/(public)/header";
+import Header from "@/app/_module/header";
 
 
 export default async function Layout({ children }: PropsWithChildren) {

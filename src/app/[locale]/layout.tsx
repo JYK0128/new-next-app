@@ -1,22 +1,14 @@
 import "@/app/globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 
+import Layout from "@/app/_module/layout";
+import { fonts } from "@/app/fonts";
 import { Providers } from "@/app/providers";
 import { routing } from "@/i18n/routing";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -37,11 +29,14 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
+      className={fonts.map((f) => f.variable).join(" ")}
     >
-      <body className={`${geistSans.variable} ${geistMono.variable} tw:antialiased`}>
+      <body className="tw:font-pretendard tw:antialiased">
         <NextIntlClientProvider>
           <Providers>
-            {children}
+            <Layout>
+              {children}
+            </Layout>
           </Providers>
         </NextIntlClientProvider>
         <div id="portal" />

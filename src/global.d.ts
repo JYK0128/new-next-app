@@ -1,4 +1,4 @@
-import type { DefaultUser } from "next-auth";
+import type { DefaultSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 
 import type messages from "@/i18n/messages/en.json";
@@ -26,14 +26,18 @@ declare module "react" {
 }
 
 declare module "next-auth" {
-  interface User extends DefaultUser {
-    id_token?: string
+  interface User {
+    idToken?: string
+  }
+
+  interface Session {
+    user: User & DefaultSession["user"]
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    id_token?: string
+    idToken?: string
   }
 }
 

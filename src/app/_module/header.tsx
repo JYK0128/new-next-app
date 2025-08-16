@@ -1,7 +1,8 @@
 "use client";
 
-import { Globe, Search } from "lucide-react";
+import { Globe, LogOut, Search } from "lucide-react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import type { Locale } from "next-intl";
 import { useRef } from "react";
 
@@ -12,17 +13,20 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchRef = useRef<HTMLInputElement>(null);
+  const session = useSession();
 
 
   const toggleSearch = () => searchRef.current?.classList.toggle("tw:hidden");
   const switchLanguage = (locale: Locale) => router.push(pathname, { locale });
-
+  const logout = () => {
+    location.href = "/api/auth/logout";
+  };
 
   return (
-    <header className="tw:flex tw:justify-between">
-      <div className="tw:justify-self-start">
+    <header className="tw:flex tw:justify-between tw:p-1">
+      <Link href="/" className="tw:justify-self-start">
         Logo
-      </div>
+      </Link>
       <div className="tw:flex">
         <nav>
           <ul className="tw:flex tw:gap-10 tw:items-center tw:size-full">
@@ -36,13 +40,23 @@ export default function Header() {
                 Blog
               </Link>
             </li>
+            { !!session.data?.user
+              && (
+                <li className={pathname === "/editor" ? "tw:border-b-blue-600 tw:border-b-2" : ""}>
+                  <Link href="/editor">
+                    Editor
+                  </Link>
+                </li>
+              )}
           </ul>
         </nav>
         <div className="tw:flex tw:ml-10">
-          <Input ref={searchRef} className="tw:hidden" placeholder="Search" />
-          <Button size="icon" variant="ghost" onClick={toggleSearch}>
-            <Search />
-          </Button>
+          <div className="tw:flex tw:gap-1">
+            <Input ref={searchRef} className="tw:hidden" placeholder="Search" />
+            <Button size="icon" variant="ghost" onClick={toggleSearch}>
+              <Search />
+            </Button>
+          </div>
           <Popover>
             <PopoverTrigger asChild>
               <Button size="icon" variant="ghost">
@@ -54,6 +68,12 @@ export default function Header() {
               <Button variant="ghost" onClick={() => switchLanguage("en")}>English</Button>
             </PopoverContent>
           </Popover>
+          { !!session.data?.user
+            && (
+              <Button size="icon" variant="ghost" onClick={logout}>
+                <LogOut />
+              </Button>
+            )}
         </div>
       </div>
     </header>

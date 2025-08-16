@@ -16,7 +16,7 @@ export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   const { user } = ctx;
 
-  if (!user?.id_token) throw new TRPCError({
+  if (!user?.idToken) throw new TRPCError({
     code: "UNAUTHORIZED",
     message: "invalid token",
   });
