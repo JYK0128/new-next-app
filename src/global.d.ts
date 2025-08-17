@@ -5,6 +5,7 @@ import type messages from "@/i18n/messages/en.json";
 import type { formats } from "@/i18n/request";
 import type { routing } from "@/i18n/routing";
 
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -17,6 +18,10 @@ declare global {
       readonly AUTH_KEYCLOAK_ISSUER: string
     }
   }
+
+  type Nullish<T> = T | undefined | null;
+  type Nullable<T> = T | null;
+  type Optional<T> = T | undefined;
 }
 
 declare module "react" {
@@ -27,7 +32,8 @@ declare module "react" {
 
 declare module "next-auth" {
   interface User {
-    idToken?: string
+    id: string
+    idToken: string
   }
 
   interface Session {
@@ -37,7 +43,8 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    idToken?: string
+    id: string
+    idToken: string
   }
 }
 

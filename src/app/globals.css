@@ -121,7 +121,7 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* 커스텀 설정 */
+/* 커스텀 설정 - 스크롤 */
 @utility scroll-y {
   scrollbar-gutter: stable both-edges;
   @apply tw:overflow-hidden;
@@ -129,7 +129,6 @@
     @apply tw:overflow-y-auto;
   }
 }
-
 @utility scroll-x {
   scrollbar-gutter: stable both-edges;
   @apply tw:overflow-hidden;
@@ -137,13 +136,21 @@
     @apply tw:overflow-x-auto;
   }
 }
-
 @utility scroll {
   scrollbar-gutter: stable both-edges;
   @apply tw:overflow-hidden;
   &:hover {
     @apply tw:overflow-auto;
   }
+}
+/* 커스텀 설정 - 사이즈 */
+@utility min-size-auto {
+  @apply 
+    tw:min-w-auto tw:min-h-auto;
+}
+@utility max-size-none {
+  @apply 
+    tw:max-w-none tw:max-h-none;
 }
 
 @layer base {
@@ -153,7 +160,6 @@
   body {
     @apply tw:bg-background tw:text-foreground;
   }
-
   * {
     min-width: 0;
     min-height: 0;
@@ -166,6 +172,12 @@
       tw:scroll-smooth
       tw:scrollbar-thumb-primary
       tw:scrollbar-track-secondary;
+  }
+  html {
+    @apply
+      tw:select-none
+      tw:touch-none
+      tw:overscroll-none;
   }
   html, body, #root {
     @apply 

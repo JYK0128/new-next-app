@@ -1,12 +1,17 @@
 import { type ClassValue, clsx } from "clsx";
+import uuid from "short-uuid";
 import { twMerge } from "tailwind-merge";
 
-
+/**
+ * tailwind 클래스 함수
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
+/**
+ * 이미지 리사이징 및 압축
+ */
 export function compress(file: File, quality = 0.8) {
   if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
     return Promise.resolve(file);
@@ -69,3 +74,33 @@ export function compress(file: File, quality = 0.8) {
   });
 }
 
+export function slugify(text: string): string {
+  // 1. Unicode 정규화 & 악센트 제거
+  let slug = text
+    // .normalize("NFKD")
+    // .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9가-힣]+/g, "-") // 특수문자, 공백 → 대시
+    .toLowerCase();
+
+  // 2. 앞뒤 대시 제거 (RegExp 없이 안전하게)
+  let start = 0;
+  let end = slug.length;
+
+  while (start < end && slug[start] === "-") start++;
+  while (end > start && slug[end - 1] === "-") end--;
+
+  slug = slug.slice(start, end);
+
+  // 3. 연속된 대시 하나로
+  slug = slug.replace(/-{2,}/g, "-");
+
+  return slug;
+}
+
+export const shortUUID = (id: string) => {
+  return uuid().fromUUID(id);
+};
+
+export const longUUID = (id: string) => {
+  return uuid().toUUID(id);
+};

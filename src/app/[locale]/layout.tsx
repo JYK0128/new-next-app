@@ -30,6 +30,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       className={fonts.map((f) => f.variable).join(" ")}
+      data-scroll-behavior="smooth"
     >
       <body className="tw:font-pretendard tw:antialiased">
         <NextIntlClientProvider>

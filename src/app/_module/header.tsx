@@ -8,6 +8,7 @@ import { useRef } from "react";
 
 import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 export default function Header() {
   const router = useRouter();
@@ -29,20 +30,29 @@ export default function Header() {
       </Link>
       <div className="tw:flex">
         <nav>
-          <ul className="tw:flex tw:gap-10 tw:items-center tw:size-full">
-            <li className={pathname === "/" ? "tw:border-b-blue-600 tw:border-b-2" : ""}>
+          <ul className="tw:flex tw:gap-5 tw:items-center tw:size-full">
+            <li className={cn(
+              "tw:w-15 tw:text-center",
+              pathname === "/" ? "tw:border-b-blue-600 tw:border-b-2" : "")}
+            >
               <Link href="/">
                 Home
               </Link>
             </li>
-            <li className={pathname === "/blog" ? "tw:border-b-blue-600 tw:border-b-2" : ""}>
+            <li className={cn(
+              "tw:w-15 tw:text-center",
+              pathname === "/blog" ? "tw:border-b-blue-600 tw:border-b-2" : "")}
+            >
               <Link href="/blog">
                 Blog
               </Link>
             </li>
             { !!session.data?.user
               && (
-                <li className={pathname === "/editor" ? "tw:border-b-blue-600 tw:border-b-2" : ""}>
+                <li className={cn(
+                  "tw:w-15 tw:text-center",
+                  pathname === "/editor" ? "tw:border-b-blue-600 tw:border-b-2" : "")}
+                >
                   <Link href="/editor">
                     Editor
                   </Link>

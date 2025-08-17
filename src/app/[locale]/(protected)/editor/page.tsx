@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
-import { type FieldValues, type SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { buttonList } from "suneditor-react";
 import { z } from "zod";
 
@@ -19,6 +19,7 @@ const fields = z.object({
   title: "",
   content: "",
 });
+type FieldValues = z.infer<typeof fields>;
 
 export default function Page() {
   const locale = useLocale();
@@ -31,6 +32,7 @@ export default function Page() {
 
   const trpc = useTRPC();
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
+  const { mutateAsync: savePost } = useMutation(trpc.blog.save.mutationOptions());
 
   const onSubmit: SubmitHandler<FieldValues> = (fields, evt) => {
     const { submitter } = (evt?.nativeEvent ?? {}) as SubmitEvent;
@@ -38,7 +40,8 @@ export default function Page() {
 
     switch (submitter.name) {
       case "submit": {
-        break;
+        savePost(fields)
+          .then((res) => console.log(res));
       }
     }
   };
