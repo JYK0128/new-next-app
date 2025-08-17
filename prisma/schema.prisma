@@ -9,32 +9,26 @@ datasource db {
 }
 
 model AppUser {
-  id                                      String        @id @map("id") @db.Uuid
-  email                                   String        @map("email") @db.VarChar(255)
-  nickname                                String        @map("nickname") @db.VarChar(255)
-  blockedUntil                            DateTime?     @map("blocked_until") @db.Timestamp(6)
-  lastLoginAt                             DateTime?     @map("last_login_at") @db.Timestamp(6)
-  lastLogoutAt                            DateTime?     @map("last_logout_at") @db.Timestamp(6)
-  createdAt                               DateTime      @map("created_at") @db.Timestamp(6)
-  createdBy                               String        @map("created_by") @db.Uuid
-  updatedAt                               DateTime      @map("updated_at") @db.Timestamp(6)
-  updatedBy                               String        @map("updated_by") @db.Uuid
-  deletedAt                               DateTime?     @map("deleted_at") @db.Timestamp(6)
-  deletedBy                               String?       @map("deleted_by") @db.Uuid
-  metadata                                Json?         @map("metadata")
-  blogComments                            BlogComment[]
-  blogPosts                               BlogPost[]
-  fileUploadFileUploadCreatedByToappUsers FileUpload[]  @relation("file_upload_created_byToapp_user")
-  fileUploadFileUploadUpdatedByToappUsers FileUpload[]  @relation("file_upload_updated_byToapp_user")
+  id                                      String       @id @map("id") @db.Uuid
+  sub                                     String       @map("sub") @db.Uuid
+  createdAt                               DateTime     @map("created_at") @db.Timestamp(6)
+  createdBy                               String       @map("created_by") @db.Uuid
+  updatedAt                               DateTime     @map("updated_at") @db.Timestamp(6)
+  updatedBy                               String       @map("updated_by") @db.Uuid
+  deletedAt                               DateTime?    @map("deleted_at") @db.Timestamp(6)
+  deletedBy                               String?      @map("deleted_by") @db.Uuid
+  metadata                                Json?        @map("metadata")
+  blogPostBlogPostCreatedByToappUsers     BlogPost[]   @relation("blog_post_created_byToapp_user")
+  blogPostBlogPostUpdatedByToappUsers     BlogPost[]   @relation("blog_post_updated_byToapp_user")
+  fileUploadFileUploadCreatedByToappUsers FileUpload[] @relation("file_upload_created_byToapp_user")
+  fileUploadFileUploadUpdatedByToappUsers FileUpload[] @relation("file_upload_updated_byToapp_user")
 
   @@map("app_user")
 }
 
 model BlogComment {
-  id        BigInt    @id @map("id")
-  postId    BigInt    @map("post_id")
-  authorId  String?   @map("author_id") @db.Uuid
-  nickname  String    @map("nickname") @db.VarChar(255)
+  id        String    @id @map("id") @db.Uuid
+  postId    String    @map("post_id") @db.Uuid
   content   String    @map("content")
   createdAt DateTime  @map("created_at") @db.Timestamp(6)
   createdBy String    @map("created_by") @db.Uuid
@@ -43,39 +37,36 @@ model BlogComment {
   deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
   deletedBy String?   @map("deleted_by") @db.Uuid
   metadata  Json?     @map("metadata")
-  appUser   AppUser?  @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   blogPost  BlogPost  @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("blog_comment")
 }
 
 model BlogPost {
-  id           BigInt        @id @map("id")
-  title        String        @map("title") @db.VarChar(255)
-  slug         String        @unique @map("slug") @db.VarChar(255)
-  content      String        @map("content")
-  thumbnail    String?       @map("thumbnail")
-  views        BigInt        @default(0) @map("views")
-  likes        BigInt        @default(0) @map("likes")
-  createdAt    DateTime      @map("created_at") @db.Timestamp(6)
-  createdBy    String        @map("created_by") @db.Uuid
-  updatedAt    DateTime      @map("updated_at") @db.Timestamp(6)
-  updatedBy    String        @map("updated_by") @db.Uuid
-  deletedAt    DateTime?     @map("deleted_at") @db.Timestamp(6)
-  deletedBy    String?       @map("deleted_by") @db.Uuid
-  metadata     Json?         @map("metadata")
-  authorId     String        @map("author_id") @db.Uuid
-  blogComments BlogComment[]
-  appUser      AppUser       @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                                String        @id @map("id") @db.Uuid
+  title                             String        @map("title") @db.VarChar(255)
+  content                           String        @map("content")
+  thumbnail                         String?       @map("thumbnail")
+  createdAt                         DateTime      @map("created_at") @db.Timestamp(6)
+  createdBy                         String        @map("created_by") @db.Uuid
+  updatedAt                         DateTime      @map("updated_at") @db.Timestamp(6)
+  updatedBy                         String        @map("updated_by") @db.Uuid
+  deletedAt                         DateTime?     @map("deleted_at") @db.Timestamp(6)
+  deletedBy                         String?       @map("deleted_by") @db.Uuid
+  metadata                          Json?         @map("metadata")
+  blogComments                      BlogComment[]
+  appUserBlogPostCreatedByToappUser AppUser       @relation("blog_post_created_byToapp_user", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  appUserBlogPostUpdatedByToappUser AppUser       @relation("blog_post_updated_byToapp_user", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("blog_post")
 }
 
 model FileUpload {
   id                                  String    @id @map("id") @db.Uuid
-  fileName                            String    @map("file_name") @db.VarChar(255)
-  fileType                            String    @map("file_type") @db.VarChar(50)
-  fileSize                            BigInt    @map("file_size")
+  url                                 String    @map("url")
+  name                                String    @map("name") @db.VarChar(255)
+  type                                String    @map("type") @db.VarChar(50)
+  size                                Int       @map("size")
   createdAt                           DateTime  @map("created_at") @db.Timestamp(6)
   createdBy                           String    @map("created_by") @db.Uuid
   updatedAt                           DateTime  @map("updated_at") @db.Timestamp(6)

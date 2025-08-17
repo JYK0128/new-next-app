@@ -87,7 +87,7 @@ export default function Page() {
 
             // uploadHandler가 업로드 프로세스 처리
             uploadFile(formData)
-              .then((res) => uploadHandler(res))
+              .then((res) => uploadHandler({ result: [res] }))
               .catch((err: Error) => uploadHandler({
                 errorMessage: err.message,
                 result: [],
@@ -98,7 +98,7 @@ export default function Page() {
           return false;
         }}
       />
-      <Button>저장</Button>
+      <Button type="submit" name="submit">저장</Button>
     </FormController>
   );
 }

@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 import Keycloak from "next-auth/providers/keycloak";
 
 import { NextError } from "@/lib/error";
-import prisma, { withCreate } from "@/lib/prisma";
+import prisma, { uuid, withCreate, withUpdate } from "@/lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Keycloak],
@@ -24,21 +24,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async signIn({ profile }) {
       if (!profile?.sub || !profile?.email || !profile?.nickname) throw new NextError({ code: "UNAUTHORIZED" });
-      await prisma.appUser.upsert({
+      const user = await prisma.appUser.findFirst({
         where: {
-          id: profile.sub,
-        },
-        create: {
-          id: profile.sub,
-          email: profile.email,
-          nickname: profile.nickname,
-          lastLoginAt: new Date(),
-          ...withCreate(profile.sub),
-        },
-        update: {
-          lastLoginAt: new Date(),
+          sub: profile.sub,
         },
       });
+
+      if (user) {
+        await prisma.appUser.update({
+          where: { id: user.id },
+          data: {
+            ...withUpdate(user.id),
+          },
+        });
+      }
+      else {
+        const id = uuid();
+        await prisma.appUser.create({
+          data: {
+            id: id,
+            sub: profile.sub,
+            ...withCreate(id),
+          },
+        });
+      }
+
 
       return true;
     },

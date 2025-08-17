@@ -1,4 +1,8 @@
 import { type Prisma, PrismaClient } from "@prisma/client";
+import { v7 as uuid } from "uuid";
+
+export { uuid };
+
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient
@@ -27,6 +31,7 @@ if (
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export default prisma;
+
 
 export const withCreate = (id?: string) => ({
   createdBy: id!,
