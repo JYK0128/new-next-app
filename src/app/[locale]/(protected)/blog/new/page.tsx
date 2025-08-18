@@ -13,11 +13,9 @@ import { compress, shortUUID, slugify } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
-  category: z.string().min(1),
   content: z.string().min(1),
 }).default({
   title: "",
-  category: "",
   content: "",
 });
 type FieldValues = z.infer<typeof fields>;
@@ -61,20 +59,12 @@ export default function Page() {
       onSubmit={onSubmit}
       className="tw:size-full tw:grid tw:grid-rows-[auto_1fr_auto] tw:gap-2 tw:p-5"
     >
-      <div className="tw:grid tw:grid-cols-[1fr_auto] tw:gap-2">
-        <FormInput
-          control={form.control}
-          name="title"
-          orientation="vertical"
-          label="제목"
-        />
-        <FormInput
-          control={form.control}
-          name="category"
-          orientation="vertical"
-          label="카테고리"
-        />
-      </div>
+      <FormInput
+        control={form.control}
+        name="title"
+        orientation="vertical"
+        label="제목"
+      />
       <FormEditor
         control={form.control}
         name="content"
