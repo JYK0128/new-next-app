@@ -8,7 +8,7 @@ import { Button, Card, CardContent, Separator } from "@/components";
 import { AspectImage } from "@/components/custom";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { shortUUID, slugify } from "@/lib/utils";
+import { cn, shortUUID, slugify } from "@/lib/utils";
 
 
 export default function Page() {
@@ -34,6 +34,16 @@ export default function Page() {
           >
             <Pen />
           </Button>
+        </div>
+      )}
+      {!data?.length && (
+        <div className={cn(
+          "tw:text-muted-foreground",
+          "tw:absolute tw:inset-0 tw:size-full tw:pointer-events-none",
+          "tw:flex tw:justify-center tw:items-center",
+        )}
+        >
+          No Contents
         </div>
       )}
       <div className="tw:grid tw:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] tw:gap-5">
