@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS app_user (
 
   PRIMARY KEY(id)
 );
+CREATE INDEX IF NOT EXISTS idx_app_user_metadata_gin ON app_user USING GIN (metadata);
 
 -- 게시판
 CREATE TABLE IF NOT EXISTS blog_post (
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS blog_post (
   FOREIGN KEY(created_by) REFERENCES app_user(id),
   FOREIGN KEY(updated_by) REFERENCES app_user(id)
 );
+CREATE INDEX IF NOT EXISTS idx_blog_post_metadata_gin ON blog_post USING GIN (metadata);
 
 -- 커멘트
 CREATE TABLE IF NOT EXISTS blog_comment (
@@ -51,6 +53,7 @@ CREATE TABLE IF NOT EXISTS blog_comment (
   PRIMARY KEY(id),
   FOREIGN KEY(post_id) REFERENCES blog_post(id)
 );
+CREATE INDEX IF NOT EXISTS idx_blog_comment_metadata_gin ON blog_comment USING GIN (metadata);
 
 --파일
 CREATE TABLE IF NOT EXISTS file_upload (
@@ -67,8 +70,8 @@ CREATE TABLE IF NOT EXISTS file_upload (
   deleted_by          UUID,
   metadata            jsonb,
 
-
   PRIMARY KEY(id),
   FOREIGN KEY(created_by) REFERENCES app_user(id),
   FOREIGN KEY(updated_by) REFERENCES app_user(id)
 );
+CREATE INDEX IF NOT EXISTS idx_file_upload_metadata_gin ON file_upload USING GIN (metadata);

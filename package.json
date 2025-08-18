@@ -6,6 +6,7 @@
     "devenv": "dotenvx run -f .env.development --",
     "stgenv": "dotenvx run -f .env.staging --",
     "prdenv": "dotenvx run -f .env.production --",
+    "sql:gen": "npm run devenv -- tsx codegen-table-index.ts",
     "prisma:gen": "npm run devenv -- tsx codegen-prisma.ts",
     "dev": "npm run devenv -- next dev --turbopack",
     "build": "npm run prdenv -- next build",
