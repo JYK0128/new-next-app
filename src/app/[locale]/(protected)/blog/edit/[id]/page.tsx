@@ -72,6 +72,7 @@ export default function Page() {
         name="title"
         orientation="vertical"
         label="제목"
+        autoComplete="off"
       />
       <FormEditor
         control={form.control}
