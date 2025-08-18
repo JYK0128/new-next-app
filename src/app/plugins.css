@@ -41,6 +41,14 @@
     max-height: unset;
   }
 }
+
+.se-video-container figure {
+  position: relative; /* iframe의 절대 위치 기준점 */
+}
+
+.se-video-container iframe {
+  position: absolute; /* 부모 요소(figure)에 맞춰 채우기 */
+}
 .react-flow .react-flow__edges {
   position: static !important;
 }

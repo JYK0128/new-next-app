@@ -9,6 +9,7 @@ import { z } from "zod";
 import { Button } from "@/components";
 import { FormController, FormInput } from "@/components/custom";
 import { FormEditor } from "@/components/custom/FormEditor";
+import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
 import { compress } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ const fields = z.object({
 type FieldValues = z.infer<typeof fields>;
 
 export default function Page() {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
 
@@ -41,7 +43,7 @@ export default function Page() {
     switch (submitter.name) {
       case "submit": {
         savePost(fields)
-          .then((res) => console.log(res));
+          .then(() => router.replace("/blog"));
       }
     }
   };

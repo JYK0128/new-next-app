@@ -3,8 +3,8 @@ import prisma from "@/lib/prisma";
 
 
 export const createContext = async () => {
-  const { user } = await auth() || {};
-  return { prisma, user };
+  const session = await auth();
+  return { prisma, user: session?.user };
 };
 
 export type Context = Awaited<ReturnType<typeof createContext>>;

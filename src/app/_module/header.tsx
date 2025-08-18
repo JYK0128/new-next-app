@@ -14,7 +14,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchRef = useRef<HTMLInputElement>(null);
-  const session = useSession();
+  const { data: session } = useSession();
 
 
   const toggleSearch = () => searchRef.current?.classList.toggle("tw:hidden");
@@ -47,17 +47,6 @@ export default function Header() {
                 Blog
               </Link>
             </li>
-            { !!session.data?.user
-              && (
-                <li className={cn(
-                  "tw:w-15 tw:text-center",
-                  pathname === "/editor" ? "tw:border-b-blue-600 tw:border-b-2" : "")}
-                >
-                  <Link href="/editor">
-                    Editor
-                  </Link>
-                </li>
-              )}
           </ul>
         </nav>
         <div className="tw:flex tw:ml-10">
@@ -78,7 +67,7 @@ export default function Header() {
               <Button variant="ghost" onClick={() => switchLanguage("en")}>English</Button>
             </PopoverContent>
           </Popover>
-          { !!session.data?.user
+          { !!session?.user
             && (
               <Button size="icon" variant="ghost" onClick={logout}>
                 <LogOut />
