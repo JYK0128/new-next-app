@@ -29,7 +29,7 @@ export default function Page() {
 
   const trpc = useTRPC();
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
-  const { mutateAsync: savePost } = useMutation(trpc.blog.save.mutationOptions());
+  const { mutateAsync: savePost, isPending } = useMutation(trpc.blog.save.mutationOptions());
 
 
   const form = useForm({
@@ -109,7 +109,9 @@ export default function Page() {
           return false;
         }}
       />
-      <Button type="submit" name="submit">저장</Button>
+      <Button type="submit" name="submit" disabled={isPending}>
+        저장
+      </Button>
     </FormController>
   );
 }
