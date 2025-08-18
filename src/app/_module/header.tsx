@@ -41,7 +41,7 @@ export default function Header() {
             </li>
             <li className={cn(
               "tw:w-15 tw:text-center",
-              pathname === "/blog" ? "tw:border-b-blue-600 tw:border-b-2" : "")}
+              pathname.startsWith("/blog") ? "tw:border-b-blue-600 tw:border-b-2" : "")}
             >
               <Link href="/blog">
                 Blog
