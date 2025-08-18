@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import type { PropsWithChildren } from "react";
 import SuperJSON from "superjson";
 
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ErrorBoundary } from "@/components/custom/ErrorBoundary";
 import { getQueryClient } from "@/lib/query";
 import { getTrpcClient, TRPCProvider } from "@/lib/trpc";
 

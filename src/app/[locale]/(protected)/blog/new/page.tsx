@@ -6,9 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { buttonList } from "suneditor-react";
 import { z } from "zod";
 
-import { Button } from "@/components";
-import { FormController, FormInput } from "@/components/custom";
-import { FormEditor } from "@/components/custom/FormEditor";
+import { Button, FormController, FormEditor, FormInput } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
 import { compress, shortUUID, slugify } from "@/lib/utils";

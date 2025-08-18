@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Pen } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { Button, Card, CardContent, Separator } from "@/components";
-import { AspectImage } from "@/components/custom";
+import { AspectImage, Button, Card, CardContent, Separator } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
 import { cn, shortUUID, slugify } from "@/lib/utils";
