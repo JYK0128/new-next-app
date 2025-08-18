@@ -23,7 +23,7 @@ export default async function Page({ params }: PropsWithChildren<Props>) {
 
   return (
     <article className="tw:scroll-y">
-      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-center">
+      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-center tw:mb-10">
         <div className="tw:px-20 tw:text-xl tw:font-bold">
           {post.title}
         </div>
@@ -41,7 +41,10 @@ export default async function Page({ params }: PropsWithChildren<Props>) {
         </div>
         <Separator orientation="horizontal" />
       </header>
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div
+        className="tw:px-5"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
     </article>
   );
 }
