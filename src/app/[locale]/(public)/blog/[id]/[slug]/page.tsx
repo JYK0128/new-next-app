@@ -3,6 +3,7 @@ import type { PropsWithChildren } from "react";
 
 import { auth } from "@/auth";
 import { Button, Separator } from "@/components";
+import { Link } from "@/i18n/navigation";
 import { longUUID } from "@/lib/utils";
 import { getTrpc } from "@/trpc/server";
 
@@ -22,15 +23,19 @@ export default async function Page({ params }: PropsWithChildren<Props>) {
 
   return (
     <article className="tw:scroll-y">
-      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-end">
-        <div className="tw:px-20 tw:text-xl tw:font-bold">{post.title}</div>
+      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-center">
+        <div className="tw:px-20 tw:text-xl tw:font-bold">
+          {post.title}
+        </div>
         <div className="tw:flex tw:items-center">
           <div>{post.createdAt.toLocaleString()}</div>
           {!!session?.user && (
             <div>
-              <Button size="icon" variant="ghost">
-                <SquarePen />
-              </Button>
+              <Link href={`/blog/edit/${id}`}>
+                <Button size="icon" variant="ghost">
+                  <SquarePen />
+                </Button>
+              </Link>
             </div>
           )}
         </div>

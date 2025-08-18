@@ -1,7 +1,9 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { buttonList } from "suneditor-react";
 import { z } from "zod";
@@ -11,7 +13,7 @@ import { FormController, FormInput } from "@/components/custom";
 import { FormEditor } from "@/components/custom/FormEditor";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { compress } from "@/lib/utils";
+import { compress, longUUID, shortUUID, slugify } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
@@ -22,19 +24,29 @@ const fields = z.object({
 });
 type FieldValues = z.infer<typeof fields>;
 
+
 export default function Page() {
   const router = useRouter();
   const locale = useLocale();
+  const { id } = useParams();
   const t = useTranslations();
+
+
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.blog.item.queryOptions({ id: longUUID(id as string) }));
+  const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
+  const { mutateAsync: savePost } = useMutation(trpc.blog.save.mutationOptions());
+
 
   const form = useForm({
     resolver: zodResolver(fields.removeDefault()),
     defaultValues: fields._def.defaultValue(),
   });
 
-  const trpc = useTRPC();
-  const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
-  const { mutateAsync: savePost } = useMutation(trpc.blog.save.mutationOptions());
+  useEffect(() => {
+    form.reset(data);
+  }, [form, data]);
+
 
   const onSubmit: SubmitHandler<FieldValues> = (fields, evt) => {
     const { submitter } = (evt?.nativeEvent ?? {}) as SubmitEvent;
@@ -43,7 +55,10 @@ export default function Page() {
     switch (submitter.name) {
       case "submit": {
         savePost(fields)
-          .then(() => router.replace("/blog"));
+          .then((post) => {
+            const { id, title } = post;
+            router.replace(`/blog/${shortUUID(id)}/${slugify(title)}`);
+          });
       }
     }
   };

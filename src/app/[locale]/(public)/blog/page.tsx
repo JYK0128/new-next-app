@@ -18,7 +18,7 @@ export default function Page() {
   const { data: session } = useSession();
 
   const movePost = (post: BlogPost) => () => {
-    const slug = slugify(post.title).substring(0, 50);
+    const slug = slugify(post.title);
     const uuid = shortUUID(post.id);
     router.push(`/blog/${uuid}/${slug}`);
   };

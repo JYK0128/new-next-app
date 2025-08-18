@@ -2,7 +2,7 @@ import { BlogPost } from "@prisma/client";
 import * as cheerio from "cheerio";
 import { z } from "zod";
 
-import { uuid, withCreate } from "@/lib/prisma";
+import { uuid, withCreate, withUpdate } from "@/lib/prisma";
 import { protectedProcedure, publicProcedure, router } from "@/trpc/trpc";
 
 export const blogRouter = router({
@@ -35,8 +35,17 @@ export const blogRouter = router({
         thumbnail = mediaUrl;
       }
 
-      return await prisma.blogPost.create({
-        data: {
+      return prisma.blogPost.upsert({
+        where: {
+          id: id,
+        },
+        update: {
+          title: input.title,
+          thumbnail: thumbnail,
+          content: input.content,
+          ...withUpdate(user.id),
+        },
+        create: {
           id: id,
           title: input.title,
           thumbnail: thumbnail,
