@@ -23,6 +23,7 @@ model AppUser {
   fileUploadFileUploadCreatedByToappUsers FileUpload[] @relation("file_upload_created_byToapp_user")
   fileUploadFileUploadUpdatedByToappUsers FileUpload[] @relation("file_upload_updated_byToapp_user")
 
+  @@index([metadata], map: "idx_app_user_metadata_gin", type: Gin)
   @@map("app_user")
 }
 
@@ -39,6 +40,7 @@ model BlogComment {
   metadata  Json?     @map("metadata")
   blogPost  BlogPost  @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@index([metadata], map: "idx_blog_comment_metadata_gin", type: Gin)
   @@map("blog_comment")
 }
 
@@ -58,6 +60,7 @@ model BlogPost {
   appUserBlogPostCreatedByToappUser AppUser       @relation("blog_post_created_byToapp_user", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   appUserBlogPostUpdatedByToappUser AppUser       @relation("blog_post_updated_byToapp_user", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@index([metadata], map: "idx_blog_post_metadata_gin", type: Gin)
   @@map("blog_post")
 }
 
@@ -77,5 +80,6 @@ model FileUpload {
   appUserFileUploadCreatedByToappUser AppUser   @relation("file_upload_created_byToapp_user", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   appUserFileUploadUpdatedByToappUser AppUser   @relation("file_upload_updated_byToapp_user", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@index([metadata], map: "idx_file_upload_metadata_gin", type: Gin)
   @@map("file_upload")
 }
