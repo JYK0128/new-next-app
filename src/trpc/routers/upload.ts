@@ -2,11 +2,13 @@ import { TRPCError } from "@trpc/server";
 import fs from "fs";
 import path from "path";
 import { z } from "zod";
+import { extendZodWithOpenApi } from "zod-openapi";
 
 import { FileUploadSchema } from "@/.generated/schema";
 import { uuid, withCreate } from "@/lib/prisma";
 import { protectedProcedure, router } from "@/trpc/trpc";
 
+extendZodWithOpenApi(z);
 
 export const fileRouter = router({
   upload: protectedProcedure
@@ -15,6 +17,7 @@ export const fileRouter = router({
         method: "POST",
         path: "/file/upload",
         tags: ["file"],
+        contentTypes: ["multipart/form-data"],
       },
     })
     .input(z.preprocess(
@@ -24,7 +27,7 @@ export const fileRouter = router({
         }
       },
       z.object({
-        file: z.instanceof(File),
+        file: z.instanceof(File).openapi({ type: "string", format: "binary" }),
       }),
     ))
     .output(FileUploadSchema)

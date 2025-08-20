@@ -58,7 +58,8 @@
     "trpc-to-openapi": "2.3.2",
     "uuid": "^11.1.0",
     "zod": "3.24.4",
-    "zod-form-data": "2.0.7"
+    "zod-form-data": "2.0.7",
+    "zod-openapi": "4.2.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "4.1.0",
