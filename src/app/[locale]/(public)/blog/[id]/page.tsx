@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import type { PropsWithChildren } from "react";
 
 import { longUUID, slugify } from "@/lib/utils";
 import { getTrpc } from "@/trpc/server";
@@ -10,7 +9,7 @@ type Props = {
   }>
 };
 
-export default async function Page({ params }: PropsWithChildren<Props>) {
+export default async function Page({ params }: Props) {
   const { id } = await params;
   const trpc = await getTrpc();
   const post = await trpc.blog.item({ id: longUUID(id) });

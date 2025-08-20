@@ -1,5 +1,4 @@
 import { SquarePen } from "lucide-react";
-import type { PropsWithChildren } from "react";
 
 import { auth } from "@/auth";
 import { Button, Separator } from "@/components";
@@ -15,7 +14,7 @@ type Props = {
   }>
 };
 
-export default async function Page({ params }: PropsWithChildren<Props>) {
+export default async function Page({ params }: Props) {
   const { id } = await params;
   const trpc = await getTrpc();
   const post = await trpc.blog.item({ id: longUUID(id) });
