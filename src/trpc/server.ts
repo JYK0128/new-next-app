@@ -1,5 +1,5 @@
 import { createContext } from "@/trpc/context";
-import { appRouter } from "@/trpc/routers/_app";
+import { appRouter } from "@/trpc/routers";
 import { createCaller } from "@/trpc/trpc";
 
 const caller = createCaller(appRouter);

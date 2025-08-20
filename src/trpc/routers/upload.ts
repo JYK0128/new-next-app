@@ -1,12 +1,12 @@
-import type { FileUpload } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import fs from "fs";
 import path from "path";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
+import { FileUploadSchema } from "@/.generated/schema";
 import { uuid, withCreate } from "@/lib/prisma";
 import { protectedProcedure, router } from "@/trpc/trpc";
+
 
 export const fileRouter = router({
   upload: protectedProcedure
@@ -17,10 +17,17 @@ export const fileRouter = router({
         tags: ["file"],
       },
     })
-    .input(zfd.formData({
-      file: zfd.file(),
-    }))
-    .output(z.custom<FileUpload>())
+    .input(z.preprocess(
+      (data) => {
+        if (data instanceof FormData) {
+          return Object.fromEntries((data as FormData).entries());
+        }
+      },
+      z.object({
+        file: z.instanceof(File),
+      }),
+    ))
+    .output(FileUploadSchema)
     .mutation(async ({ ctx: { prisma, user }, input }) => {
       if (!user || !user.id) throw new TRPCError({ code: "UNAUTHORIZED" });
 

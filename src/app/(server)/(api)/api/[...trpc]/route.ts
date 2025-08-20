@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { createOpenApiFetchHandler } from "trpc-to-openapi";
 
 import { createContext } from "@/trpc/context";
-import { appRouter } from "@/trpc/routers/_app";
+import { appRouter } from "@/trpc/routers";
 
 const handler = (req: NextRequest) =>
   createOpenApiFetchHandler({

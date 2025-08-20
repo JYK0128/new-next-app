@@ -1,7 +1,7 @@
-import { BlogPost } from "@prisma/client";
 import * as cheerio from "cheerio";
 import { z } from "zod";
 
+import { BlogPostSchema } from "@/.generated/schema";
 import { uuid, withCreate, withUpdate } from "@/lib/prisma";
 import { protectedProcedure, publicProcedure, router } from "@/trpc/trpc";
 
@@ -18,9 +18,7 @@ export const blogRouter = router({
       title: z.string(),
       content: z.string(),
     }))
-    .output(z
-      .custom<BlogPost>(),
-    )
+    .output(BlogPostSchema)
     .mutation(async ({ ctx: { prisma, user }, input }) => {
       const id = uuid();
 
@@ -65,10 +63,7 @@ export const blogRouter = router({
     })
     .input(z.object({
     }))
-    .output(z
-      .custom<BlogPost>()
-      .array(),
-    )
+    .output(BlogPostSchema.array())
     .query(({ ctx: { prisma } }) => {
       return prisma.blogPost.findMany();
     }),
@@ -84,9 +79,7 @@ export const blogRouter = router({
     .input(z.object({
       id: z.string(),
     }))
-    .output(z
-      .custom<BlogPost>(),
-    )
+    .output(BlogPostSchema)
     .query(({ ctx: { prisma }, input }) => {
       return prisma.blogPost.findUniqueOrThrow({
         where: {

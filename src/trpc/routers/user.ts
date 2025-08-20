@@ -1,7 +1,8 @@
-import type { AppUser } from "@prisma/client";
 import { z } from "zod";
 
+import { AppUserSchema } from "@/.generated/schema";
 import { publicProcedure, router } from "@/trpc/trpc";
+
 
 export const userRouter = router({
   getAll: publicProcedure
@@ -14,10 +15,7 @@ export const userRouter = router({
     })
     .input(z.object({
     }))
-    .output(z
-      .custom<AppUser>()
-      .array(),
-    )
+    .output(AppUserSchema.array())
     .query(({ ctx: { prisma } }) => {
       return prisma.appUser.findMany();
     }),
