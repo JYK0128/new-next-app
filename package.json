@@ -9,8 +9,9 @@
     "sql:gen": "npm run devenv -- tsx codegen-table-index.ts",
     "prisma:gen": "npm run devenv -- tsx codegen-prisma.ts",
     "dev": "npm run devenv -- next dev --turbopack",
-    "build": "npm run prdenv -- next build",
-    "start": "npm run prdenv -- next start",
+    "lunch": "npm run prdenv -- next build && next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "prisma:init": "prisma init --datasource-provider postgresql",
     "prisma:seed": "npm run devenv -- tsx prisma/seed.ts",
@@ -54,7 +55,7 @@
     "swagger-ui-react": "^5.27.1",
     "tailwind-merge": "^3.3.1",
     "tailwind-scrollbar": "^4.0.2",
-    "trpc-to-openapi": "^2.3.2",
+    "trpc-to-openapi": "2.3.2",
     "uuid": "^11.1.0",
     "zod": "3.24.4",
     "zod-form-data": "2.0.7"
@@ -100,7 +101,8 @@
     "tw-animate-css": "^1.3.6",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "zod-prisma-types": "^3.2.4"
   },
   "pnpm": {
     "overrides": {

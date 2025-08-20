@@ -99,15 +99,31 @@ function convertSchema(schema: string): string {
   return output.trimEnd() + "\n";
 }
 
+function patchJsonValueSchema(original: string) {
+  const pattern = new RegExp(
+    String.raw`export\s+const\s+JsonValueSchema\s*:\s*z\.ZodType<Prisma\.JsonValue>\s*=\s*z\.lazy\(\(\)\s*=>\s*[\s\S]*?\);\s*`,
+    "m"
+  );
+
+  const replacement =
+    'export const JsonValueSchema= z.custom<Prisma.JsonValue>();\n';
+
+  const updated = original.replace(pattern, replacement);
+  return updated;
+}
+
 async function main() {
   const execAsync = promisify(exec);
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const sourcePath = path.join(__dirname, "prisma", "schema.base.prisma");
-  const schemaPath = path.join(__dirname, "prisma", "schema.prisma");
+  const SOURCE_PATH = path.join(__dirname, "prisma", "schema.base.prisma");
+  const SCHEMA_PATH = path.join(__dirname, "prisma", "schema.prisma");
+  const ZOD_PATH = path.join(__dirname, "src", ".generated", "schema", "index.ts");
+
+
 
   try {
     /* Prisma Model 초기화 */
-    await fs.copyFile(sourcePath, schemaPath);
+    await fs.copyFile(SOURCE_PATH, SCHEMA_PATH);
     console.log("✅ Prisma - Model 초기화 완료!");
 
     /* DB 동기화 */
@@ -115,19 +131,26 @@ async function main() {
     console.log("✅ Prisma - DB 동기화 완료!");
 
     /* Prisma 스키마 변경 */
-    const original = await fs.readFile(schemaPath, "utf8");
+    const original = await fs.readFile(SCHEMA_PATH, "utf8");
     const converted = convertSchema(original);
-    await fs.writeFile(schemaPath, converted, "utf8");
+    await fs.writeFile(SCHEMA_PATH, converted, "utf8");
     console.log("✅ Prisma - Schema 변환 완료!");
 
     /* Prisma 스키마 검사 */
-    await execAsync(`prisma format --schema=${schemaPath}`);
+    await execAsync(`prisma format --schema=${SCHEMA_PATH}`);
     console.log("✅ Prisma - Format 완료!");
-    console.log("✨ prisma.schema ➜ ", schemaPath);
+    console.log("✨ prisma.schema ➜ ", SCHEMA_PATH);
 
     /* Prisma Client 생성 */
     await execAsync(`prisma generate`);
     console.log("🎉 Prisma - Client 생성 완료!");
+
+    /* Zod JsonValue Type 패치 */
+    const zodSchemas = await fs.readFile(ZOD_PATH, "utf8");
+    const patched = patchJsonValueSchema(zodSchemas)
+    await fs.writeFile(ZOD_PATH, patched, "utf8");
+    console.log("🎉 Prisma - zodSchemas 생성 완료!");
+
   }
   catch (err) {
     console.error("❌ 에러 발생:", err);

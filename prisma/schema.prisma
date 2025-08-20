@@ -3,6 +3,12 @@ generator client {
   previewFeatures = ["typedSql"]
 }
 
+generator zod {
+  provider         = "zod-prisma-types"
+  output           = "../src/.generated/schema"
+  createInputTypes = "false"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
