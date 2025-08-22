@@ -1,5 +1,6 @@
 {
   "editor": {
+    "exist": "Would you really go out?",
     "placeholder": "Please enter the contents."
   },
   "error": "There was an error!",

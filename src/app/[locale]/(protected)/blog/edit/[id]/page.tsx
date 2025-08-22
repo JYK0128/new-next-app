@@ -62,6 +62,18 @@ export default function Page() {
     }
   };
 
+
+  useEffect(() => {
+    const handler: OnBeforeUnloadEventHandler = (evt) => {
+      evt.preventDefault();
+      return "";
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => {
+      window.removeEventListener("beforeunload", handler);
+    };
+  }, [t]);
+
   return (
     <FormController
       form={form}

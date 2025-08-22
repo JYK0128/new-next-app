@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { buttonList } from "suneditor-react";
 import { z } from "zod";
@@ -52,6 +53,18 @@ export default function Page() {
       }
     }
   };
+
+
+  useEffect(() => {
+    const handler: OnBeforeUnloadEventHandler = (evt) => {
+      evt.preventDefault();
+      return "";
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => {
+      window.removeEventListener("beforeunload", handler);
+    };
+  }, [t]);
 
   return (
     <FormController
