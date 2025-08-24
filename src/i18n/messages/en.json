@@ -1,9 +1,21 @@
 {
+  "content": "content",
   "editor": {
     "exist": "Would you really go out?",
     "placeholder": "Please enter the contents."
   },
+  "email": "email",
   "error": "There was an error!",
+  "inquiry": "Inquiry",
+  "inquiry_success": "Inquiries have been registered.",
+  "invalid_content": "Please enter the contents.",
+  "invalid_email": "The email format is not correct.",
+  "invalid_title": "Please enter the title.",
+  "name": "Jin-Yong Kim",
   "refresh": "Refresh",
-  "welcome": "Welcome to Next.js!"
+  "title": "title",
+  "welcome": {
+    "message": "I am {name}.",
+    "title": "Hello."
+  }
 }

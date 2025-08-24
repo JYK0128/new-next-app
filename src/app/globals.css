@@ -165,8 +165,7 @@
       tw:min-w-0
       tw:min-h-0
       tw:max-w-full
-      tw:max-h-full
-      tw:overflow-hidden;
+      tw:max-h-full;
   }
   *:not(button) {
     @apply 

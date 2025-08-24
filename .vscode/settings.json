@@ -10,7 +10,8 @@
   "exportall.config.folderListener": [
     "/src/components/ui",
     "/src/components/custom",
-    "/src/components/shadcn"
+    "/src/components/shadcn",
+    "/src/hooks"
   ],
   // "tailwindCSS.experimental.configFile": "src/app/globals.css",
 }

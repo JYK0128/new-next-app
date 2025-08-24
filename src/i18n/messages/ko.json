@@ -1,9 +1,21 @@
 {
+  "content": "내용",
   "editor": {
     "exist": "정말로 나가시겠습니까?",
     "placeholder": "내용을 입력해주세요."
   },
+  "email": "이메일",
   "error": "오류가 발생했어요!",
+  "inquiry": "문의하기",
+  "inquiry_success": "문의내역이 등록되었습니다.",
+  "invalid_content": "내용을 입력해주세요.",
+  "invalid_email": "이메일 형식이 올바르지 않습니다.",
+  "invalid_title": "제목을 입력해주세요.",
+  "name": "김진용",
   "refresh": "새로고침",
-  "welcome": "Next.js에 오신 것을 환영합니다!"
+  "title": "제목",
+  "welcome": {
+    "message": "저는 {name} 입니다.",
+    "title": "안녕하세요."
+  }
 }

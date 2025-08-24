@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import type { PropsWithChildren } from "react";
 import SuperJSON from "superjson";
 
+import { MessageProvider } from "@/components";
 import { ErrorBoundary } from "@/components/custom/ErrorBoundary";
 import { getQueryClient } from "@/lib/query";
 import { getTrpcClient, TRPCProvider } from "@/lib/trpc";
@@ -29,14 +30,17 @@ export function Providers({ children }: PropsWithChildren) {
   });
 
   return (
-    <ErrorBoundary>
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-            {children}
-          </TRPCProvider>
-        </QueryClientProvider>
-      </SessionProvider>
-    </ErrorBoundary>
+    <>
+      <ErrorBoundary>
+        <SessionProvider>
+          <QueryClientProvider client={queryClient}>
+            <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+              {children}
+            </TRPCProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </ErrorBoundary>
+      <MessageProvider />
+    </>
   );
 }

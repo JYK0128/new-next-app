@@ -7,7 +7,6 @@ import { extendZodWithOpenApi } from "zod-openapi";
 import { FileUploadSchema } from "@/.generated/schema";
 import { uuid, withCreate } from "@/lib/prisma";
 import { protectedProcedure, router } from "@/trpc/trpc";
-
 extendZodWithOpenApi(z);
 
 export const fileRouter = router({

@@ -1,3 +1,4 @@
+export * from './alert-dialog';
 export * from './aspect-ratio';
 export * from './button';
 export * from './card';
