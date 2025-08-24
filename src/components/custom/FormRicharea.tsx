@@ -1,5 +1,6 @@
+"use client";
 import { X } from "lucide-react";
-import { ComponentPropsWithoutRef, CSSProperties, useRef, useState } from "react";
+import { ComponentPropsWithoutRef, CSSProperties, useEffect, useRef, useState } from "react";
 import { FieldPath, FieldValues, UseControllerProps } from "react-hook-form";
 
 import { Button, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn";
@@ -42,10 +43,17 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
 
   /* 파일 기능 */
   const fileRef = useRef<HTMLInputElement>(null);
-  const transferRef = useRef(new DataTransfer());
   const [fileList, setFileList] = useState<File[]>([]);
+  const transferRef = useRef<DataTransfer | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      transferRef.current = new DataTransfer();
+    }
+  }, []);
 
   const addFiles = (files: (File | null)[]) => {
+    if (!transferRef.current) return;
     for (const file of files) {
       if (!file) throw Error("it is not readable file");
       transferRef.current.items.add(file);
@@ -58,6 +66,7 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
   };
 
   const deleteFile = (idx: number) => {
+    if (!transferRef.current) return;
     setFileList((prev) => prev.toSpliced(idx, 1));
     transferRef.current.items.remove(idx);
     if (fileRef.current) {
