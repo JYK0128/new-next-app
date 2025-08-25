@@ -1,13 +1,11 @@
 generator client {
   provider        = "prisma-client-js"
-  output          = "../src/.generated/prisma"
   previewFeatures = ["typedSql"]
 }
 
 generator zod {
   provider         = "zod-prisma-types"
   output           = "../src/.generated/schema"
-  prismaClientPath = "@/.generated/prisma"
   createInputTypes = "false"
 }
 
