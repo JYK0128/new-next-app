@@ -1,3 +1,4 @@
+"use client";
 import { BaseSyntheticEvent, Dispatch, Dispatcher, Setter, useEffect, useState } from "react";
 
 // 상태
