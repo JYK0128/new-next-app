@@ -36,8 +36,8 @@ jobs:
         uses: burnett01/rsync-deployments@5.2
         with:
           switches: -avzr --delete
-          path: .next/
-          remote_path: /home/ubuntu/new-next-app/.next
+          path: .
+          remote_path: /home/ubuntu/new-next-app
           remote_host: ${{ secrets.SERVER_HOST }}
           remote_user: ${{ secrets.SERVER_USER }}
           remote_key: ${{ secrets.SERVER_SSH_KEY }}
