@@ -24,7 +24,9 @@ jobs:
 
       - name: generate prisma
         run: pnpm prisma:prd
-
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+          
       - name: Build project
         run: pnpm build
         env:
