@@ -24,6 +24,8 @@ jobs:
 
       - name: Build project
         run: pnpm build
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
 
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@5.2
