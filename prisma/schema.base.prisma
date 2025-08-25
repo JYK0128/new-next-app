@@ -1,15 +1,17 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["typedSql"]
+  output = "../src/.generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 generator zod {
   provider = "zod-prisma-types"
+  prismaClientPath = "@/.generated/prisma"
   output = "../src/.generated/schema"
   createInputTypes = false
 }

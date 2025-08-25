@@ -22,7 +22,7 @@ const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 const eslintConfig = [
   includeIgnoreFile(gitignorePath),
   {
-    ignores: ["./src/components/shadcn/**"],
+    ignores: ["./src/components/shadcn/**", "./src/.generated/**"],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   stylistic.configs["recommended"],

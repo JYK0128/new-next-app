@@ -1,9 +1,9 @@
 "use client";
-import type { BlogPost } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Pen } from "lucide-react";
 import { useSession } from "next-auth/react";
 
+import type { BlogPost } from "@/.generated/prisma";
 import { AspectImage, Button, Card, CardContent, Separator } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";

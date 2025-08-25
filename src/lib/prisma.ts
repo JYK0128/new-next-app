@@ -1,5 +1,6 @@
-import { type Prisma, PrismaClient } from "@prisma/client";
 import { v7 as uuid } from "uuid";
+
+import { type Prisma, PrismaClient } from "@/.generated/prisma";
 
 export { uuid };
 
