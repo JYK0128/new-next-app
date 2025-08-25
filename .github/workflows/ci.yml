@@ -50,4 +50,3 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/ubuntu/new-next-app
-            pnpm prisma:prd
