@@ -10,7 +10,7 @@ export interface DocMeta {
 export const openApiDocument = generateOpenApiDocument<DocMeta>(appRouter, {
   title: "CRUD API",
   version: "1.0.0",
-  baseUrl: `${process.env.NEXT_SITE_DOMAIN}/api`,
-  docsUrl: `${process.env.NEXT_SITE_DOMAIN}/api-docs`,
+  baseUrl: `${process.env.NEXT_SITE_URL}/api`,
+  docsUrl: `${process.env.NEXT_SITE_URL}/api-docs`,
   filter: ({ metadata }) => metadata.isPublic !== false,
 });

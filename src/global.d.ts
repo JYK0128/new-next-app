@@ -12,7 +12,7 @@ declare global {
       readonly DATABASE_URL: string
       readonly NEXT_ENV: string
       readonly NEXT_PUBLIC_ENV: string
-      readonly NEXT_SITE_DOMAIN: string
+      readonly NEXT_SITE_URL: string
 
       readonly AUTH_SECRET: string
       readonly AUTH_KEYCLOAK_ID: string

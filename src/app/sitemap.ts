@@ -6,13 +6,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 페이지, 이미지, 비디오
   return [
     {
-      url: process.env.NEXT_SITE_DOMAIN,
+      url: process.env.NEXT_SITE_URL,
       lastModified: new Date(),
       alternates: {
         languages: Object.fromEntries(
           routing.locales.map((locale) => [
             locale,
-            new URL(locale, process.env.NEXT_SITE_DOMAIN).toString(),
+            new URL(locale, process.env.NEXT_SITE_URL).toString(),
           ]),
         ),
       },

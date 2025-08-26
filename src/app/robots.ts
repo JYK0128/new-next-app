@@ -45,6 +45,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow,
     },
-    sitemap: `${process.env.NEXT_SITE_DOMAIN}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_SITE_URL}/sitemap.xml`,
   };
 }
