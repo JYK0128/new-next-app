@@ -18,7 +18,7 @@ export async function GET() {
   response.cookies.delete({
     name: "__Secure-authjs.session-token",
     path: "/",
-    domain: new URL(process.env.NEXT_SITE_URL).hostname
+    domain: new URL(process.env.NEXT_SITE_URL).hostname,
     secure: true,
   });
 
