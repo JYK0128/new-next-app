@@ -57,6 +57,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       user["id"] = dbUser.id;
 
+      console.log("hi");
+
       return true;
     },
   },
