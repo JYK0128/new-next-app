@@ -49,6 +49,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            source ~/.bashrc
             cd /home/ubuntu/new-next-app
             pnpm install
             pnpm build:prd
