@@ -15,6 +15,7 @@ export async function GET() {
 
   const response = NextResponse.redirect(signoutURL);
   response.cookies.delete("authjs.session-token");
+  response.cookies.delete("__Secure-authjs.session-token");
 
   return response;
 }
