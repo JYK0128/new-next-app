@@ -50,6 +50,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/ubuntu/new-next-app
+            git pull
             pnpm install
             pnpm prisma:prd
             pm2 restart myapp || pm2 start pnpm --name "myapp" -- start

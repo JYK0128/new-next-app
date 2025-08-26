@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { signIn } from "@/auth";
 
 export async function GET() {
+  console.log("=========", process.env.NEXT_SITE_DOMAIN);
+
   const res = await signIn("keycloak", {
     redirect: false,
     redirectTo: process.env.NEXT_SITE_DOMAIN,
