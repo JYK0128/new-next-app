@@ -49,8 +49,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            source ~/.bashrc
             cd /home/ubuntu/new-next-app
             pnpm install
-            pnpm build:prd
+            pnpm prisma:prd
+            pnpm build
             pm2 restart myapp || pm2 start pnpm --name "myapp" -- start
