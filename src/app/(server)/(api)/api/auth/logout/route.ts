@@ -22,5 +22,12 @@ export async function GET() {
     secure: true,
   });
 
+  console.log({
+    name: "__Secure-authjs.session-token",
+    path: "/",
+    domain: new URL(process.env.NEXT_SITE_URL).hostname,
+    secure: true,
+  });
+
   return response;
 }
