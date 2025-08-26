@@ -46,7 +46,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: ".next"
-          target: "/home/ubuntu/new-next-app/"
+          target: "/home/ubuntu/new-next-app/.next"
           rm: true
 
       - name: Restart app on server
@@ -57,9 +57,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/ubuntu/new-next-app
-            tar -xzf next-build.tar.gz
-            rm next-build.tar.gz
-            git pull
+            git fetch origin production
+            git reset --hard origin/production
             pnpm install
             pnpm prisma:prd
             pm2 restart myapp || pm2 start pnpm --name "myapp" -- start
