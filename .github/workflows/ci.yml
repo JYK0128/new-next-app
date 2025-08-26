@@ -48,6 +48,7 @@ jobs:
           source: ".next"
           target: "/home/ubuntu/new-next-app/.next"
           rm: true
+          strip_components: 1
 
       - name: Restart app on server
         uses: appleboy/ssh-action@v1.0.0
