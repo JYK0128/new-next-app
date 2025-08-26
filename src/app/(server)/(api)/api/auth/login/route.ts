@@ -10,5 +10,6 @@ export async function GET() {
     redirectTo: process.env.NEXT_SITE_DOMAIN,
   });
 
+  console.log("=========", res);
   return NextResponse.redirect(res);
 }
