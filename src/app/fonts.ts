@@ -1,52 +1,91 @@
-import { Nanum_Brush_Script, Nanum_Gothic, Nanum_Gothic_Coding, Nanum_Myeongjo, Nanum_Pen_Script, Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
 import localFont from "next/font/local";
 
 const pretendard = localFont({
   variable: "--font-pretendard",
-  src: "../fonts/Pretendard.woff2",
-  weight: "400 800",
+  src: "../fonts/pretendard-100 900.woff2",
+  weight: "100 900",
 });
 
-const notoSans = Noto_Sans_KR({
+const notoSans = localFont({
   variable: "--font-noto-sans-kr",
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  src: "../fonts/noto-sans-kr-100 900.woff2",
+  weight: "100 900",
 });
 
-const notoSerif = Noto_Serif_KR({
+const notoSerif = localFont({
   variable: "--font-noto-serif-kr",
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  src: "../fonts/noto-serif-kr-200 900.woff2",
+  weight: "200 900",
 });
 
-const nanumGothic = Nanum_Gothic({
+const nanumGothic = localFont({
   variable: "--font-nanum-gothic",
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  src: [
+    {
+      path: "../fonts/nanum-gothic-400.woff2",
+      weight: "400",
+    },
+    {
+      path: "../fonts/nanum-gothic-700.woff2",
+      weight: "700",
+    },
+    {
+      path: "../fonts/nanum-gothic-800.woff2",
+      weight: "800",
+    },
+  ],
 });
 
-const nanumMyeongjo = Nanum_Myeongjo({
+const nanumMyeongjo = localFont({
   variable: "--font-nanum-myoujo",
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  src: [
+    {
+      path: "../fonts/nanum-myeongjo-400.woff2",
+      weight: "400",
+    },
+    {
+      path: "../fonts/nanum-myeongjo-700.woff2",
+      weight: "700",
+    },
+    {
+      path: "../fonts/nanum-myeongjo-800.woff2",
+      weight: "800",
+    },
+  ],
 });
 
-const nanumPenScript = Nanum_Pen_Script({
+const nanumPenScript = localFont({
   variable: "--font-nanum-pen-script",
-  subsets: ["latin"],
-  weight: ["400"],
+  src: [
+    {
+      path: "../fonts/nanum-pen-script-400.woff2",
+      weight: "400",
+    },
+  ],
 });
 
-const nanumBrushScript = Nanum_Brush_Script({
+const nanumBrushScript = localFont({
   variable: "--font-nanum-brush-script",
-  subsets: ["latin"],
-  weight: ["400"],
+  src: [
+    {
+      path: "../fonts/nanum-brush-script-400.woff2",
+      weight: "400",
+    },
+  ],
 });
 
-const nanumGothicCoding = Nanum_Gothic_Coding({
+const nanumGothicCoding = localFont({
   variable: "--font-nanum-gothic-coding",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  src: [
+    {
+      path: "../fonts/nanum-gothic-coding-400.woff2",
+      weight: "400",
+    },
+    {
+      path: "../fonts/nanum-gothic-coding-700.woff2",
+      weight: "700",
+    },
+  ],
 });
 
 export const fonts = [
