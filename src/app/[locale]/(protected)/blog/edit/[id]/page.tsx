@@ -109,6 +109,10 @@ export default function Page() {
             "Noto Serif KR",
           ],
           defaultStyle: "font-family: Pretendard; font-size: 16px;",
+          callBackSave: () => {
+            if ("string" !== typeof id) return;
+            savePost({ id: longUUID(id), ...form.getValues() });
+          },
         }}
         onImageUploadBefore={(files, _, uploadHandler) => {
           const file = files[0];
