@@ -54,7 +54,7 @@ export default function Page() {
     switch (submitter.name) {
       case "submit": {
         if ("string" !== typeof id) return;
-        savePost({ id, ...fields })
+        savePost({ id: longUUID(id), ...fields })
           .then((post) => {
             const { id, title } = post;
             router.replace(`/blog/${shortUUID(id)}/${slugify(title)}`);
