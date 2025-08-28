@@ -15,12 +15,13 @@ export const blogRouter = router({
       },
     })
     .input(z.object({
+      id: z.string().nullish(),
       title: z.string(),
       content: z.string(),
     }))
     .output(BlogPostSchema)
     .mutation(async ({ ctx: { prisma, user }, input }) => {
-      const id = uuid();
+      const id = input.id || uuid();
 
       let thumbnail: string | undefined;
       const $ = cheerio.load(input.content);
