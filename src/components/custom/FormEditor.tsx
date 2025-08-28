@@ -52,7 +52,7 @@ export const FormEditor = forwardRef(
         render={({ field }) => (
           <FormItem
             className={cn(
-              "tw:min-h-auto tw:min-w-auto",
+              "tw:min-h-fit tw:min-w-fit",
               "tw:flex tw:flex-wrap",
               orientation === "horizontal"
                 ? "tw:flex-row"
@@ -75,6 +75,7 @@ export const FormEditor = forwardRef(
             <div className="tw:flex-1">
               <FormControl>
                 <SunEditor
+                  height="100%"
                   {...inputProps}
                   {...field}
                   getSunEditorInstance={getSunEditorInstance}

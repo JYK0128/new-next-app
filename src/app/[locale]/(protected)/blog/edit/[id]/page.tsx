@@ -92,7 +92,6 @@ export default function Page() {
         name="content"
         orientation="vertical"
         label="내용"
-
         lang={locale}
         placeholder={t("editor.placeholder")}
         setOptions={{

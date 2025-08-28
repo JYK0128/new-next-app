@@ -5,16 +5,9 @@
 }
 .sun-editor .se-container {
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
-.sun-editor .se-container .se-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.sun-editor .se-container .se-wrapper .se-wrapper-inner {
-  flex: 1;
+.sun-editor .se-wrapper {
+  height: calc(100% - 94px - 16px);
 }
 .sun-editor .se-tooltip {
   min-width: unset;
@@ -40,18 +33,16 @@
     max-height: unset;
   }
 }
-
 .se-video-container figure {
   position: relative; /* iframe의 절대 위치 기준점 */
 }
-
 .se-video-container iframe {
   position: absolute; /* 부모 요소(figure)에 맞춰 채우기 */
 }
+
 .react-flow .react-flow__edges {
   position: static !important;
 }
-
 .react-flow .react-flow__attribution {
   display: none !important;
 }

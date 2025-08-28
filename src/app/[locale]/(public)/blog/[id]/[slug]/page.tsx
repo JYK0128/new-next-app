@@ -22,7 +22,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="tw:scroll-y">
-      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-center tw:py-10">
+      <header className="tw:flex tw:flex-col tw:gap-1 tw:items-center tw:pt-10">
         <div className="tw:px-20 tw:text-xl tw:font-bold">
           {post.title}
         </div>
@@ -41,7 +41,7 @@ export default async function Page({ params }: Props) {
         <Separator orientation="horizontal" />
       </header>
       <div
-        className="tw:p-10"
+        className="sun-editor-editable tw:p-10"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
     </article>

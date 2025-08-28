@@ -10,7 +10,7 @@
     "sql:prd": "npm run devenv -- tsx codegen-table-index.ts",
     "prisma:dev": "npm run devenv -- tsx codegen-prisma.ts",
     "prisma:prd": "npm run prdenv -- tsx codegen-prisma.ts",
-    "dev": "npm run devenv -- next dev --turbopack",
+    "dev": "npm run devenv -- next dev",
     "build": "npm run prdenv -- next build",
     "start": "npm run prdenv -- next start",
     "lint": "next lint",
