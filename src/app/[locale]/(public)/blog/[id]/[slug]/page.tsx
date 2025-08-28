@@ -27,7 +27,7 @@ export default async function Page({ params }: Props) {
           {post.title}
         </div>
         <div className="tw:flex tw:items-center">
-          <div>{post.createdAt.toLocaleString()}</div>
+          <div>{post.updatedAt.toLocaleString()}</div>
           {!!session?.user && (
             <div>
               <Link href={`/blog/edit/${id}`}>
