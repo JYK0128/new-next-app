@@ -9,6 +9,12 @@
 .sun-editor .se-wrapper {
   height: calc(100% - 94px - 16px);
 }
+.sun-editor .sun-editor-editable * {
+  min-width: unset;
+  max-width: unset;
+  min-height: unset;
+  max-height: unset;
+}
 .sun-editor .se-tooltip {
   min-width: unset;
   max-width: unset;
