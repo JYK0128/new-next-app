@@ -49,7 +49,7 @@ export default function Page() {
         {data?.map((post) => (
           <Card key={post.id} onClick={movePost(post)}>
             <CardContent className="tw:flex tw:flex-col tw:gap-5">
-              <AspectImage src={post.thumbnail} />
+              <AspectImage src={`${location.origin}/${post.thumbnail}`} />
               <Separator orientation="horizontal" />
               <div className="tw:truncate tw:text-xl tw:font-bold">
                 {post.title}
