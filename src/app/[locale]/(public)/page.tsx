@@ -1,11 +1,11 @@
 "use client";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger, SplitText } from "gsap/all";
+import gsap, { ScrollTrigger, SplitText } from "gsap/all";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 import { InquiryForm } from "@/app/[locale]/(public)/inquiry-form";
+import { cn } from "@/lib/utils";
 
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
@@ -39,38 +39,52 @@ export default function Page() {
 
   useGSAP(() => {
     if (!screenRef.current) return;
-    const { scrollHeight, clientHeight, children } = screenRef.current;
 
-    const scroll = ScrollTrigger.create({
-      trigger: screenRef.current,
-      scroller: screenRef.current,
+    const scroller = screenRef.current;
+    const tweenList = Array.from(screenRef.current.children).map((child) => ScrollTrigger.create({
+      trigger: child,
+      scroller,
       start: "top top",
-      end: scrollHeight - clientHeight,
-      scrub: true,
-      snap: {
-        snapTo: 1 / (children.length - 1),
-        duration: 1,
-        ease: "power4.inOut",
-      },
-
-      markers: true,
-    });
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false,
+    }));
 
     return () => {
-      scroll.kill();
+      tweenList.forEach((tween) => tween.kill());
     };
   });
 
 
   return (
-    <div ref={screenRef} className="tw:size-full tw:scroll-y">
-      <div ref={textRef} className="tw:size-full tw:m-auto tw:invisible">
-        {t("welcome.title")}
-        <br />
-        {t("welcome.message", { name: t("name") })}
+    <div
+      ref={screenRef}
+      className={cn(
+        "tw:size-full tw:[&>div]:bg-background",
+        "tw:scroll-y tw:scrollbar-none",
+        "tw:snap-y tw:snap-mandatory tw:[&>div]:snap-start",
+      )}
+    >
+      <div className="tw:size-full tw:m-auto">
+        <div ref={textRef} className="tw:invisible">
+          {t("welcome.title")}
+          <br />
+          {t("welcome.message", { name: t("name") })}
+        </div>
       </div>
       <div className="tw:size-full tw:m-auto">
-        가난하고, 배고픈 상태에요.
+        <div
+          className={cn(
+            "tw:size-full tw:[&>div]:bg-background",
+            "tw:flex tw:flex-nowrap tw:[&>div]:flex-none",
+            "tw:scroll-x tw:scrollbar-none",
+            "tw:snap-x tw:snap-mandatory tw:[&>div]:snap-start",
+          )}
+        >
+          <div className="tw:size-full">Slide 01</div>
+          <div className="tw:size-full">Slide 02</div>
+          <div className="tw:size-full">Slide 03</div>
+        </div>
       </div>
       <div className="tw:size-full tw:m-auto">
         <InquiryForm />
