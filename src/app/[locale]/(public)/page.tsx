@@ -125,20 +125,31 @@ export default function Page() {
         const slider = section;
         const contents = slider.querySelectorAll("div");
 
-        ScrollTrigger.create({
-          trigger: slider,
-          scroller: scroller,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (contents.length - 1),
-          animation: gsap.to(contents, {
-            xPercent: -100 * (contents.length - 1),
-            ease: "none",
-          }),
-          // markers: true,
-          onToggle: ({ isActive }) => {
-            gsap.to(slider, { opacity: +isActive, ease: "none" });
+        const scrollTween = gsap.to(contents, {
+          xPercent: -100 * (contents.length - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: slider,
+            scroller: scroller,
+            pin: true,
+            scrub: 1,
+            snap: 1 / (contents.length - 1),
+            // markers: true,
           },
+        });
+
+        contents.forEach((content, index) => {
+          ScrollTrigger.create({
+            trigger: content,
+            start: "left center",
+            scrub: 1,
+            animation: gsap.fromTo(content,
+              { opacity: 0 },
+              { opacity: 2 },
+            ),
+            containerAnimation: scrollTween,
+            markers: true,
+          });
         });
       }
       else {
@@ -176,7 +187,6 @@ export default function Page() {
           "tw:flex tw:overflow-x-hidden",
           "tw:[&>div]:flex-none tw:[&>div]:size-full",
         )}
-        style={{ opacity: 0 }}
       >
         <svg
           ref={svgRef}
