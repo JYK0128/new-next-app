@@ -22,7 +22,7 @@ export default function Page() {
     const svg = d3.select(svgRef.current);
     const pathData = d3.path();
 
-    const [p0, p1, p2, p3] = getBezierCurve(1600, 900, 1400);
+    const [p0, p1, p2, p3] = getBezierCurve(1600, 900, 1200, "vertical", 700);
     pathData.moveTo(...p0);
     pathData.bezierCurveTo(...p1, ...p2, ...p3);
 
@@ -67,6 +67,31 @@ export default function Page() {
     const pathNode = path.node();
     if (!pathNode) return;
 
+    // start, end 두지점을 동일값으로 지정하여 양음수 각 1개씩 end 포인트 추출
+    // start값이 변해도 end 값이 변하지 않는 두 지점에서 start 값 찾아 근사값 도출
+    /* 패턴
+      1600, 900, 300, "vertical", 700
+      start: -1.834 // -0.834 -0.497 // 0.166 1.666 2.666
+      end: -1.166 // -0.166 0.834 // 1.333 2.333
+      p1: -0.497, 0.834
+      p2: -1.497, -0.166
+      pn: -2.497, -1.166
+
+      1600, 900, 600, "vertical", 700
+      start: -2.806 -1.806 // -0.806, 0.194 // 1.696 2.696
+      end: -2.194 -1.194 // -0.194, 0.806 // 1.304 2.304
+      p1: -0.41, 0.806
+      p2: -1.41, -0.194
+      pn: -2.41, -1.194
+
+      1600, 900, 1200, "vertical", 700
+      start: -0.778 -1.778 // -0.778 0.222 // 1.729 2.729
+      end: -2.222 -1.222 // -0.222 0.778 // 1.271 2.271
+      p1: -0.329, 0.778
+      p2: -1.329, -0.222
+      pn: -2.329, -1.222
+    */
+
     ScrollTrigger.create({
       trigger: slider,
       scroller: scroller,
@@ -78,8 +103,8 @@ export default function Page() {
           align: pathNode,
           alignOrigin: [0.5, 0.5],
           autoRotate: true,
-          start: -0.527,
-          end: 0.845,
+          start: -1.329,
+          end: -0.222,
         },
       }),
     });

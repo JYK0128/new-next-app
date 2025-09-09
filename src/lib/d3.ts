@@ -4,14 +4,30 @@ export function getBezierCurve(
   w: number,
   h: number,
   amp: number,
+  direction: "vertical" | "horizontal" = "horizontal",
+  offset: { start: number, end: number } | number = 0,
   skew = 0.5,
 ) {
-  const P0: Point = [0, h / 2];
-  const P1: Point = [skew * w, h / 2 - amp];
-  const P2: Point = [(1 - skew) * w, h / 2 + amp];
-  const P3: Point = [w, h / 2];
+  if (typeof offset === "number") {
+    offset = { start: offset, end: -offset };
+  }
 
-  return [P0, P1, P2, P3];
+  // Horizontal curve
+  if (direction === "horizontal") {
+    const P0 = [0, h / 2 + offset.start];
+    const P1 = [skew * w, h / 2 - amp];
+    const P2 = [(1 - skew) * w, h / 2 + amp];
+    const P3 = [w, h / 2 + offset.end];
+    return [P0, P1, P2, P3] as Point[];
+  }
+  // Vertical curve
+  else {
+    const P0 = [w / 2 + offset.start, 0];
+    const P1 = [w / 2 - amp, skew * h];
+    const P2 = [w / 2 + amp, (1 - skew) * h];
+    const P3 = [w / 2 + offset.end, h];
+    return [P0, P1, P2, P3] as Point[];
+  }
 }
 
 
