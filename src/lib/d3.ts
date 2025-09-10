@@ -30,7 +30,19 @@ export function getBezierCurve(
   }
 }
 
-
+/**
+ * scroll Trigger의 시작점과 끝점 찾는 방법
+ * - start, end 두지점을 동일값으로 지정하여 양음수 각 1개씩 end 포인트 추출
+ * - start값이 변해도 end 값이 변하지 않는 두 지점에서 start 값 찾아 근사값 도출
+ *
+ * 예시)
+ * 1600, 900, 300, "vertical", 700
+ *   - start: -1.834 // -0.834 -0.497 // 0.166 1.666 2.666
+ *   - end: -1.166 // -0.166 0.834 // 1.333 2.333
+ *   -- p1: -0.497, 0.834
+ *   -- p2: -1.497, -0.166
+ *   -- pn: -2.497, -1.166
+ */
 export function getBezierPoint(
   [p0, p1, p2, p3]: Point[],
   ...steps: number[]

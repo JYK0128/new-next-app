@@ -42,7 +42,7 @@ export default function Page() {
       duration: 1,
     });
 
-    // 정지 포인트
+    // 정박지
     const points = getBezierPoint(
       [p0, p1, p2, p3],
       ...[0.1, 0.5, 0.9],
@@ -50,47 +50,23 @@ export default function Page() {
 
     points.forEach(([x, y]) => {
       svg
-        .append("circle")
-        .attr("cx", x)
-        .attr("cy", y)
-        .attr("r", 10)
-        .attr("fill", "red");
+        .append("image")
+        .attr("href", "island.svg")
+        .attr("x", x - 50)
+        .attr("y", y - 50)
+        .attr("width", 100)
+        .attr("height", 100);
     });
 
-    // 움직이는 요소
+    // 선박
     const mover = svg
-      .append("rect")
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("fill", "blue");
+      .append("image")
+      .attr("href", "ship.svg")
+      .attr("width", 100)
+      .attr("height", 100);
 
     const pathNode = path.node();
     if (!pathNode) return;
-
-    // start, end 두지점을 동일값으로 지정하여 양음수 각 1개씩 end 포인트 추출
-    // start값이 변해도 end 값이 변하지 않는 두 지점에서 start 값 찾아 근사값 도출
-    /* 패턴
-      1600, 900, 300, "vertical", 700
-      start: -1.834 // -0.834 -0.497 // 0.166 1.666 2.666
-      end: -1.166 // -0.166 0.834 // 1.333 2.333
-      p1: -0.497, 0.834
-      p2: -1.497, -0.166
-      pn: -2.497, -1.166
-
-      1600, 900, 600, "vertical", 700
-      start: -2.806 -1.806 // -0.806, 0.194 // 1.696 2.696
-      end: -2.194 -1.194 // -0.194, 0.806 // 1.304 2.304
-      p1: -0.41, 0.806
-      p2: -1.41, -0.194
-      pn: -2.41, -1.194
-
-      1600, 900, 1200, "vertical", 700
-      start: -0.778 -1.778 // -0.778 0.222 // 1.729 2.729
-      end: -2.222 -1.222 // -0.222 0.778 // 1.271 2.271
-      p1: -0.329, 0.778
-      p2: -1.329, -0.222
-      pn: -2.329, -1.222
-    */
 
     ScrollTrigger.create({
       trigger: slider,
@@ -101,10 +77,9 @@ export default function Page() {
         motionPath: {
           path: pathNode,
           align: pathNode,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: -1.329,
-          end: -0.222,
+          alignOrigin: [1.5, 1],
+          start: -0.329,
+          end: 0.778,
         },
       }),
     });
@@ -123,7 +98,7 @@ export default function Page() {
     sections.forEach((section) => {
       if (section.id === "slider") {
         const slider = section;
-        const contents = slider.querySelectorAll("div");
+        const contents = slider.querySelectorAll(":scope>div");
 
         const scrollTween = gsap.to(contents, {
           xPercent: -100 * (contents.length - 1),
@@ -138,7 +113,8 @@ export default function Page() {
           },
         });
 
-        contents.forEach((content, index) => {
+        // bug: 현재화면의 투명도가 0.5
+        contents.forEach((content) => {
           ScrollTrigger.create({
             trigger: content,
             start: "left center",
@@ -148,7 +124,6 @@ export default function Page() {
               { opacity: 2 },
             ),
             containerAnimation: scrollTween,
-            markers: true,
           });
         });
       }
@@ -176,9 +151,15 @@ export default function Page() {
         "tw:size-full",
         "tw:scroll-y tw:scrollbar-none",
         "tw:[&>section]:size-full",
+        "tw:bg-[#9fdbef]",
       )}
     >
-      <section>Header</section>
+      <section className="tw:grid tw:grid-rows-2">
+        <div>
+          {/* image */}
+        </div>
+        <div>Web Engineer</div>
+      </section>
 
       <section
         id="slider"
@@ -194,9 +175,18 @@ export default function Page() {
           className="tw:size-full tw:absolute"
           preserveAspectRatio="none"
         />
-        <div>Content 1</div>
-        <div>Content 2</div>
-        <div>Content 3</div>
+        <div className="tw:grid tw:grid-rows-3 tw:grid-cols-2">
+          <div className="tw:[grid-area:1/1]">Content 1</div>
+          <div className="tw:[grid-area:1/2]" />
+        </div>
+        <div className="tw:grid tw:grid-rows-3 tw:grid-cols-3">
+          <div className="tw:[grid-area:2/1]">Content 2-1</div>
+          <div className="tw:[grid-area:2/3]">Content 2-2</div>
+        </div>
+        <div className="tw:grid tw:grid-rows-3 tw:grid-cols-3">
+          <div className="tw:[grid-area:3/1]">Content 3-1</div>
+          <div className="tw:[grid-area:3/3]">Content 3-2</div>
+        </div>
       </section>
       <section id="dummy" />
 

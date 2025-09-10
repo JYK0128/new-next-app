@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <defs>
+        <!-- 야자수 잎 -->
+        <path id="leaf" d="M0,0 C-10,-20 -30,-20 -35,-3 L-17.5,-8 Z" fill="#4C9900" stroke="#000000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- 야자수 나무 기둥 -->
+        <path id="trunk" d="M0,35 C5,15 5,5 0,0 L8,0 C3,5 3,15 8,35 Z" fill="#8B5E3C" stroke="#000000" stroke-width="2.5"/>
+    </defs>
+
+    <!-- 섬 (해안선 좌우 반전) -->
+    <path d="M5,100 C40,50 88,50 123,100 C 98,115 28,95 5,100 Z" fill="#FDEE9D" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- 왼쪽 야자수 (위로 이동) -->
+    <g transform="translate(45, 62)">
+        <use href="#trunk"/>
+        <g transform="translate(4, 0)">
+            <use href="#leaf" transform="rotate(100) scale(0.9)"/>
+            <use href="#leaf" transform="rotate(40) scale(0.9)"/>
+            <use href="#leaf" transform="rotate(-20) scale(0.9)"/>
+            <use href="#leaf" transform="rotate(-80) scale(0.9)"/>
+        </g>
+    </g>
+
+    <!-- 오른쪽 야자수 (위로 이동) -->
+    <g transform="translate(85, 57)">
+        <use href="#trunk"/>
+        <g transform="translate(4, 0)">
+            <use href="#leaf" transform="rotate(110)"/>
+            <use href="#leaf" transform="rotate(50)"/>
+            <use href="#leaf" transform="rotate(-10)"/>
+            <use href="#leaf" transform="rotate(-70)"/>
+        </g>
+    </g>
+</svg>
