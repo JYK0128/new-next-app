@@ -1,72 +1,98 @@
-import { useGSAP } from "@gsap/react";
-import * as d3 from "d3";
-import gsap from "gsap/all";
+import gsap from "gsap";
 import { random } from "lodash-es";
-import { useRef } from "react";
-
-gsap.registerPlugin(useGSAP);
-
+import { useEffect, useRef } from "react";
 
 export function ScreenOne() {
-  const aniRef = useRef<SVGSVGElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Scene 애니메이션 처리
-  useGSAP(() => {
-    if (!aniRef.current) return;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    const svg = d3.select(aniRef.current);
+    const { width, height } = canvas;
 
-    const sun = svg.append("image")
-      .attr("href", "sun.svg")
-      .attr("x", 50)
-      .attr("y", 50)
-      .attr("width", 100)
-      .attr("height", 100);
+    // 이미지 로드
+    const sunImg = new Image();
+    sunImg.src = "sun.svg";
 
-    gsap.to(sun.node(), {
-      rotate: 360,
+    const cloudImg = new Image();
+    cloudImg.src = "cloud.svg";
+
+    const sun = { x: 50, y: 50, w: 100, h: 100, angle: 0 };
+
+    // 구름 여러 개 생성
+    const clouds = Array.from({ length: 10 }).map(() => ({
+      x: random(100, 1500),
+      y: random(100, 800),
+      w: 100,
+    }));
+
+    // 애니메이션 정의
+    gsap.to(sun, {
+      angle: 360,
       repeat: -1,
-      ease: "none",
       duration: 2,
-      transformOrigin: "50% 50%",
-    });
-
-    const clouds = Array.from({ length: 10 }, (_, i) => {
-      return svg.append("image")
-        .attr("href", "cloud.svg")
-        .attr("x", random(100, 1500))
-        .attr("y", random(100, 800))
-        .attr("width", 100);
+      ease: "none",
     });
 
     clouds.forEach((cloud) => {
-      gsap.to(cloud.node(), {
+      gsap.to(cloud, {
+        x: random(0, 1) ? 1600 : -100,
         duration: random(15, 30),
         ease: "none",
         repeat: -1,
-        attr: { x: random(0, 1) ? 1600 : -100 },
         repeatRefresh: true,
         modifiers: {
           x: (x) => {
-            if (parseFloat(x) >= 1600) return "-100";
-            if (parseFloat(x) <= -100) return "1700";
+            const num = parseFloat(x);
+            if (num >= 1600) return "-100";  // 오른쪽 끝 -> 왼쪽 시작
+            if (num <= -100) return "1600";  // 왼쪽 끝 -> 오른쪽 시작
             return x;
           },
         },
         onRepeat: () => {
-          gsap.set(cloud.node(), { attr: { y: random(100, 800) } });
+          cloud.y = random(100, 800); // 새로운 높이
         },
       });
     });
-  });
+
+
+    // 렌더 루프
+    function render() {
+      if (ctx) {
+        ctx.clearRect(0, 0, width, height);
+
+        // 태양 회전
+        if (sunImg.complete) {
+          ctx.save();
+          ctx.translate(sun.x + sun.w / 2, sun.y + sun.h / 2);
+          ctx.rotate((sun.angle * Math.PI) / 180);
+          ctx.drawImage(sunImg, -sun.w / 2, -sun.h / 2, sun.w, sun.h);
+          ctx.restore();
+        }
+
+        // 구름
+        if (cloudImg.complete) {
+          clouds.forEach((c) => {
+            ctx.drawImage(cloudImg, c.x, c.y, c.w, c.w * 0.6);
+          });
+        }
+      }
+      requestAnimationFrame(render);
+    }
+
+    render();
+  }, []);
 
   return (
     <section className="tw:relative">
-      <svg
-        ref={aniRef}
-        viewBox="0 0 1600 900"
+      <canvas
+        ref={canvasRef}
+        width={1600}
+        height={900}
         className="tw:size-full tw:absolute"
-        preserveAspectRatio="none"
       />
     </section>
   );
