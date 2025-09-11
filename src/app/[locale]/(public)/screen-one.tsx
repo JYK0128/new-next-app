@@ -20,7 +20,8 @@ export function ScreenOne() {
       .attr("href", "sun.svg")
       .attr("x", 50)
       .attr("y", 50)
-      .attr("width", 100);
+      .attr("width", 100)
+      .attr("height", 100);
 
     gsap.to(sun.node(), {
       rotate: 360,
@@ -43,14 +44,17 @@ export function ScreenOne() {
         duration: random(15, 30),
         ease: "none",
         repeat: -1,
-        attr: { x: 1600 },       // 'attr' 옵션 사용!
+        attr: { x: random(0, 1) ? 1600 : -100 },
         repeatRefresh: true,
         modifiers: {
-          // x 값이 끝에 도달하면 순간 이동하도록 조정
           x: (x) => {
-            if (parseFloat(x) >= 1600) return "-100"; // 화면 왼쪽으로 순간 이동
+            if (parseFloat(x) >= 1600) return "-100";
+            if (parseFloat(x) <= -100) return "1700";
             return x;
           },
+        },
+        onRepeat: () => {
+          gsap.set(cloud.node(), { attr: { y: random(100, 800) } });
         },
       });
     });
