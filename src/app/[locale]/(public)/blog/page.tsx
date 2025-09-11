@@ -23,7 +23,7 @@ export default function Page() {
   };
 
   return (
-    <div className="tw:scroll-y">
+    <div className="tw:scroll-y tw:p-5">
       {!!session?.user && (
         <div className="tw:flex tw:justify-end">
           <Button
