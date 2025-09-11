@@ -1,24 +1,30 @@
 "use client";
 import { useGSAP } from "@gsap/react";
 import * as d3 from "d3";
-import gsap, { MotionPathPlugin, ScrollTrigger, SplitText } from "gsap/all";
+import gsap, { MotionPathPlugin, ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
+import { ScreenOne } from "@/app/[locale]/(public)/screen-one";
 import { getBezierCurve, getBezierPoint } from "@/lib/d3";
 import { cn } from "@/lib/utils";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText, MotionPathPlugin);
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin);
 
 export default function Page() {
-  const screenRef = useRef<HTMLDivElement | null>(null);
-  const svgRef = useRef<SVGSVGElement | null>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
 
   // SVG 처리
   useGSAP(() => {
     if (!svgRef.current) return;
     if (!screenRef.current) return;
+    if (!sliderRef.current) return;
+
+    const slider = sliderRef.current;
     const scroller = screenRef.current;
-    const slider = svgRef.current.parentElement;
+
     const svg = d3.select(svgRef.current);
     const pathData = d3.path();
 
@@ -87,7 +93,7 @@ export default function Page() {
     return () => {
       svg.selectAll("*").remove();
     };
-  }, []);
+  });
 
   // 애니메이션 처리
   useGSAP(() => {
@@ -96,38 +102,7 @@ export default function Page() {
     const sections = scroller.querySelectorAll(":scope>section");
 
     sections.forEach((section) => {
-      if (section.id === "slider") {
-        const slider = section;
-        const contents = slider.querySelectorAll(":scope>div");
-
-        const scrollTween = gsap.to(contents, {
-          xPercent: -100 * (contents.length - 1),
-          ease: "none",
-          scrollTrigger: {
-            trigger: slider,
-            scroller: scroller,
-            pin: true,
-            scrub: 1,
-            snap: 1 / (contents.length - 1),
-            // markers: true,
-          },
-        });
-
-        // bug: 현재화면의 투명도가 0.5
-        contents.forEach((content) => {
-          ScrollTrigger.create({
-            trigger: content,
-            start: "left center",
-            scrub: 1,
-            animation: gsap.fromTo(content,
-              { opacity: 0 },
-              { opacity: 2 },
-            ),
-            containerAnimation: scrollTween,
-          });
-        });
-      }
-      else {
+      if (!section.classList.contains("slider")) {
         ScrollTrigger.create({
           trigger: section,
           scroller: scroller,
@@ -143,6 +118,41 @@ export default function Page() {
     });
   });
 
+  useGSAP(() => {
+    if (!sliderRef.current) return;
+    if (!screenRef.current) return;
+    const slider = sliderRef.current;
+    const scroller = screenRef.current;
+    const contents = slider.querySelectorAll(":scope>div");
+
+    const scrollTween = gsap.to(contents, {
+      xPercent: -100 * (contents.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: slider,
+        scroller: scroller,
+        pin: true,
+        scrub: 1,
+        snap: 1 / (contents.length - 1),
+        // markers: true,
+      },
+    });
+
+    // bug: 현재화면의 투명도가 0.5
+    contents.forEach((content) => {
+      ScrollTrigger.create({
+        trigger: content,
+        start: "left center",
+        scrub: 1,
+        animation: gsap.fromTo(content,
+          { opacity: 0 },
+          { opacity: 2 },
+        ),
+        containerAnimation: scrollTween,
+      });
+    });
+  });
+
 
   return (
     <div
@@ -154,16 +164,12 @@ export default function Page() {
         "tw:bg-[#9fdbef]",
       )}
     >
-      <section className="tw:grid tw:grid-rows-2">
-        <div>
-          {/* image */}
-        </div>
-        <div>Web Engineer</div>
-      </section>
+      <ScreenOne />
 
       <section
-        id="slider"
+        ref={sliderRef}
         className={cn(
+          "slider",
           "tw:relative",
           "tw:flex tw:overflow-x-hidden",
           "tw:[&>div]:flex-none tw:[&>div]:size-full",
