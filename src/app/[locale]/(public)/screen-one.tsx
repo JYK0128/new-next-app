@@ -20,8 +20,7 @@ export function ScreenOne() {
       .attr("href", "sun.svg")
       .attr("x", 50)
       .attr("y", 50)
-      .attr("width", 100)
-      .attr("height", 100);
+      .attr("width", 100);
 
     gsap.to(sun.node(), {
       rotate: 360,
