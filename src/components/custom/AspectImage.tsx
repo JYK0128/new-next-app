@@ -1,5 +1,4 @@
 import Image, { type ImageProps } from "next/image";
-import type { SyntheticEvent } from "react";
 
 import { AspectRatio } from "@/components/shadcn";
 import { cn } from "@/lib/utils";
