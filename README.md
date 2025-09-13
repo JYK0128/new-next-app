@@ -104,3 +104,27 @@ events: {
     proxy_buffers 4 256k;
     proxy_busy_buffers_size 256k;
 ```
+
+## 영속화 작업
+
+- iptables
+
+```bash
+  # 등록
+  sudo iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
+  sudo iptables -I INPUT 1 -p tcp --dport 443 -j ACCEPT
+  # 영속화
+  sudo netfilter-persistent save
+  # 확인
+  sudo iptables -L INPUT -n -v | grep 443
+```
+
+-pm2
+
+```bash
+  # 영속화 스크립트 생성
+  pm2 startup
+
+  # 입력 후 프로세스 저장
+  pm2 save
+```
