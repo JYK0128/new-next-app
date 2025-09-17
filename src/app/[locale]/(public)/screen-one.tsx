@@ -1,11 +1,13 @@
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { random } from "lodash-es";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export function ScreenOne() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  useEffect(() => {
+  // canvas
+  useGSAP(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -84,7 +86,7 @@ export function ScreenOne() {
     }
 
     render();
-  }, []);
+  });
 
   return (
     <section className="tw:relative">
