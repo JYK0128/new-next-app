@@ -2,7 +2,9 @@
   "content": "내용",
   "editor": {
     "exist": "정말로 나가시겠습니까?",
-    "placeholder": "내용을 입력해주세요."
+    "failed": "저장을 실패했습니다.",
+    "placeholder": "내용을 입력해주세요.",
+    "saved": "저장했습니다."
   },
   "email": "이메일",
   "error": "오류가 발생했어요!",

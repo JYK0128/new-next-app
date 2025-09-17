@@ -2,7 +2,9 @@
   "content": "content",
   "editor": {
     "exist": "Would you really go out?",
-    "placeholder": "Please enter the contents."
+    "failed": "Save Failed.",
+    "placeholder": "Please enter the contents.",
+    "saved": "Save Complete."
   },
   "email": "email",
   "error": "There was an error!",

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { buttonList } from "suneditor-react";
 import { z } from "zod";
 
@@ -75,7 +76,7 @@ export default function Page() {
     return () => {
       window.removeEventListener("beforeunload", handler);
     };
-  }, [t]);
+  }, []);
 
   return (
     <FormController
@@ -113,7 +114,9 @@ export default function Page() {
           defaultStyle: "font-family: Pretendard; font-size: 16px;",
           callBackSave: () => {
             if ("string" !== typeof id) return;
-            savePost({ id: longUUID(id), ...form.getValues() });
+            savePost({ id: longUUID(id), ...form.getValues() })
+              .then(() => toast.success(t("editor.saved")))
+              .catch(() => toast.error(t("editor.failed")));
           },
         }}
         onImageUploadBefore={(files, _, uploadHandler) => {
