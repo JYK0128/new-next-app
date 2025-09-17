@@ -36,8 +36,7 @@ export default function Page() {
     refetchOnWindowFocus: false,
   });
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
-  const { mutateAsync: savePost, isPending }
-   = useMutation(trpc.blog.save.mutationOptions());
+  const { mutateAsync: savePost, isPending } = useMutation(trpc.blog.save.mutationOptions());
 
 
   const form = useForm({
