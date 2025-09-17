@@ -31,7 +31,10 @@ export default function Page() {
 
 
   const trpc = useTRPC();
-  const { data } = useQuery(trpc.blog.item.queryOptions({ id: longUUID(id as string) }));
+  const { data } = useQuery({
+    ...trpc.blog.item.queryOptions({ id: longUUID(id as string) }),
+    refetchOnWindowFocus: false,
+  });
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
   const { mutateAsync: savePost, isPending }
    = useMutation(trpc.blog.save.mutationOptions());
