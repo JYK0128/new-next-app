@@ -3,7 +3,7 @@ import { SquarePen } from "lucide-react";
 import { auth } from "@/auth";
 import { Button, Separator } from "@/components";
 import { Link } from "@/i18n/navigation";
-import { longUUID } from "@/lib/utils";
+import { toLongId } from "@/lib/utils";
 import { getTrpc } from "@/trpc/server";
 
 
@@ -17,7 +17,7 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { id } = await params;
   const trpc = await getTrpc();
-  const post = await trpc.blog.item({ id: longUUID(id) });
+  const post = await trpc.blog.item({ id: toLongId(id) });
   const session = await auth();
 
   return (

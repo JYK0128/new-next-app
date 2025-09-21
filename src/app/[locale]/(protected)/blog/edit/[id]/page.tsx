@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Button, FormController, FormEditor, FormInput } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { compress, longUUID, shortUUID, slugify } from "@/lib/utils";
+import { compress, toLongId, toShortId, slugify } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
@@ -33,7 +33,7 @@ export default function Page() {
 
   const trpc = useTRPC();
   const { data } = useQuery({
-    ...trpc.blog.item.queryOptions({ id: longUUID(id as string) }),
+    ...trpc.blog.item.queryOptions({ id: toLongId(id as string) }),
     refetchOnWindowFocus: false,
   });
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
@@ -57,10 +57,10 @@ export default function Page() {
     switch (submitter.name) {
       case "submit": {
         if ("string" !== typeof id) return;
-        savePost({ id: longUUID(id), ...fields })
+        savePost({ id: toLongId(id), ...fields })
           .then((post) => {
             const { id, title } = post;
-            router.replace(`/blog/${shortUUID(id)}/${slugify(title)}`);
+            router.replace(`/blog/${toShortId(id)}/${slugify(title)}`);
           });
       }
     }
@@ -114,7 +114,7 @@ export default function Page() {
           defaultStyle: "font-family: Pretendard; font-size: 16px;",
           callBackSave: () => {
             if ("string" !== typeof id) return;
-            savePost({ id: longUUID(id), ...form.getValues() })
+            savePost({ id: toLongId(id), ...form.getValues() })
               .then(() => toast.success(t("editor.saved")))
               .catch(() => toast.error(t("editor.failed")));
           },

@@ -2,7 +2,8 @@ import * as cheerio from "cheerio";
 import { z } from "zod";
 
 import { BlogPostSchema } from "@/.generated/schema";
-import { uuid, withCreate, withUpdate } from "@/lib/prisma";
+import { withCreate, withUpdate } from "@/lib/prisma";
+import { uuid } from "@/lib/utils";
 import { protectedProcedure, publicProcedure, router } from "@/trpc/trpc";
 
 export const blogRouter = router({

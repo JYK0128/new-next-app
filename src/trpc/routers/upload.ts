@@ -5,7 +5,8 @@ import { z } from "zod";
 import { extendZodWithOpenApi } from "zod-openapi";
 
 import { FileUploadSchema } from "@/.generated/schema";
-import { uuid, withCreate } from "@/lib/prisma";
+import { withCreate } from "@/lib/prisma";
+import { uuid } from "@/lib/utils";
 import { protectedProcedure, router } from "@/trpc/trpc";
 extendZodWithOpenApi(z);
 

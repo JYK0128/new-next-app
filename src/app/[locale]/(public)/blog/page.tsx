@@ -1,4 +1,5 @@
 "use client";
+
 import type { BlogPost } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Pen } from "lucide-react";
@@ -7,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { AspectImage, Button, Card, CardContent, Separator } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { cn, shortUUID, slugify } from "@/lib/utils";
+import { cn, toShortId, slugify } from "@/lib/utils";
 
 
 export default function Page() {
@@ -18,7 +19,7 @@ export default function Page() {
 
   const movePost = (post: BlogPost) => () => {
     const slug = slugify(post.title);
-    const uuid = shortUUID(post.id);
+    const uuid = toShortId(post.id);
     router.push(`/blog/${uuid}/${slug}`);
   };
 

@@ -160,6 +160,9 @@
   *:not(button) {
     @apply tw:scrollbar-thin tw:scroll-smooth tw:scrollbar-thumb-primary tw:scrollbar-track-secondary;
   }
+  button {
+    @apply tw:cursor-pointer;
+  }
   html {
     @apply tw:select-none tw:touch-none tw:overscroll-none;
   }

@@ -21,6 +21,7 @@ declare global {
 
       readonly GOOGLE_MAIL_USER: string
       readonly GOOGLE_MAIL_PASS: string
+      readonly GOOGLE_LLM_KEY: string
     }
   }
 

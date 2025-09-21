@@ -10,7 +10,7 @@ import { z } from "zod";
 import { Button, FormController, FormEditor, FormInput } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { compress, shortUUID, slugify } from "@/lib/utils";
+import { compress, toShortId, slugify } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
@@ -48,7 +48,7 @@ export default function Page() {
         savePost(fields)
           .then((post) => {
             const { id, title } = post;
-            router.replace(`/blog/${shortUUID(id)}/${slugify(title)}`);
+            router.replace(`/blog/${toShortId(id)}/${slugify(title)}`);
           });
       }
     }

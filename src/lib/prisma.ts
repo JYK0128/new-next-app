@@ -1,8 +1,4 @@
 import { type Prisma, PrismaClient } from "@prisma/client";
-import { v7 as uuid } from "uuid";
-
-
-export { uuid };
 
 
 const globalForPrisma = global as unknown as {

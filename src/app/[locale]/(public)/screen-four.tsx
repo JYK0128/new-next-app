@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -9,9 +7,9 @@ import { z } from "zod";
 import { Button, FormController, FormInput, FormRicharea } from "@/components";
 import { useMessage } from "@/hooks";
 import { useTRPC } from "@/lib/trpc";
+import { cn } from "@/lib/utils";
 
-
-export function InquiryForm() {
+export function ScreenFour() {
   const t = useTranslations();
   const { message } = useMessage();
   const trpc = useTRPC();
@@ -68,36 +66,44 @@ export function InquiryForm() {
   };
 
   return (
-    <FormController
-      form={form}
-      onSubmit={onSubmit}
-      onError={onError}
-      className="tw:flex tw:flex-col tw:gap-2"
+    <section
+      className={cn(
+        "tw:relative",
+        "tw:flex tw:overflow-x-hidden",
+        "tw:[&>div]:flex-none tw:[&>div]:size-full",
+      )}
     >
-      <div className="tw:flex tw:items-end tw:gap-1">
+      <FormController
+        form={form}
+        onSubmit={onSubmit}
+        onError={onError}
+        className="tw:flex tw:flex-col tw:gap-2"
+      >
+        <div className="tw:flex tw:items-end tw:gap-1">
+          <FormInput
+            control={form.control}
+            name="email"
+            label={t("email")}
+            orientation="vertical"
+          />
+          <Button type="submit" name="submit" variant="ghost">
+            {t("inquiry")}
+          </Button>
+        </div>
         <FormInput
           control={form.control}
-          name="email"
-          label={t("email")}
+          name="title"
+          label={t("title")}
           orientation="vertical"
         />
-        <Button type="submit" name="submit" variant="ghost">
-          {t("inquiry")}
-        </Button>
-      </div>
-      <FormInput
-        control={form.control}
-        name="title"
-        label={t("title")}
-        orientation="vertical"
-      />
-      <FormRicharea
-        control={form.control}
-        name="content"
-        label={t("content")}
-        orientation="vertical"
-        className="tw:h-[10rem]"
-      />
-    </FormController>
+        <FormRicharea
+          control={form.control}
+          name="content"
+          label={t("content")}
+          orientation="vertical"
+          className="tw:h-[10rem]"
+        />
+      </FormController>
+    </section>
   );
 }

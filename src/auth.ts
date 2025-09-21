@@ -2,7 +2,8 @@ import NextAuth from "next-auth";
 import Keycloak from "next-auth/providers/keycloak";
 
 import { NextError } from "@/lib/error";
-import prisma, { uuid, withCreate, withUpdate } from "@/lib/prisma";
+import prisma, { withCreate, withUpdate } from "@/lib/prisma";
+import { uuid } from "@/lib/utils";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Keycloak],

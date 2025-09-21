@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
-import uuid from "short-uuid";
+import shortID from "short-uuid";
 import { twMerge } from "tailwind-merge";
+import { v7 } from "uuid";
+
 
 /**
  * tailwind 클래스 함수
@@ -97,10 +99,12 @@ export function slugify(text: string): string {
   return slug;
 }
 
-export const shortUUID = (id: string) => {
-  return uuid().fromUUID(id);
+export const uuid = v7;
+
+export const toShortId = (longId: string) => {
+  return shortID().fromUUID(longId);
 };
 
-export const longUUID = (id: string) => {
-  return uuid().toUUID(id);
+export const toLongId = (shortId: string) => {
+  return shortID().toUUID(shortId);
 };

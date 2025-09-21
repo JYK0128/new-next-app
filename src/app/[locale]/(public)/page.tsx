@@ -3,7 +3,9 @@ import { useGSAP } from "@gsap/react";
 import gsap, { MotionPathPlugin, ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
+import { ScreenFour } from "@/app/[locale]/(public)/screen-four";
 import { ScreenOne } from "@/app/[locale]/(public)/screen-one";
+import { ScreenThree } from "@/app/[locale]/(public)/screen-three";
 import { ScreenTwo } from "@/app/[locale]/(public)/screen-two";
 import { cn } from "@/lib/utils";
 
@@ -47,10 +49,9 @@ export default function Page() {
       )}
     >
       <ScreenOne />
-
       <ScreenTwo />
-
-      <section>Footer</section>
+      <ScreenThree />
+      <ScreenFour />
     </div>
   );
 }
