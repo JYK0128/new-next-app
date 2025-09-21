@@ -189,6 +189,24 @@ export function ChatInner() {
 export function Chat() {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (window === undefined) return;
+    if (!open) return;
+
+    history.replaceState({ modal: true }, "");
+
+    const handlePopState = (evt: PopStateEvent) => {
+      evt.preventDefault();
+      setOpen(false);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [open]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
