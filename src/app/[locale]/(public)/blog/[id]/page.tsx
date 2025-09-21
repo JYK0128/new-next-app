@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { toLongId, slugify } from "@/lib/utils";
+import { slugify, toLongId } from "@/lib/utils";
 import { getTrpc } from "@/trpc/server";
 
 type Props = {

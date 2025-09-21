@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Button, FormController, FormEditor, FormInput } from "@/components";
 import { useRouter } from "@/i18n/navigation";
 import { useTRPC } from "@/lib/trpc";
-import { compress, toLongId, toShortId, slugify } from "@/lib/utils";
+import { compress, slugify, toLongId, toShortId } from "@/lib/utils";
 
 const fields = z.object({
   title: z.string().min(1),
