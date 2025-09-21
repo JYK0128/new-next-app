@@ -1,7 +1,7 @@
 "use client";
 import { X } from "lucide-react";
 import { ComponentPropsWithoutRef, CSSProperties, useEffect, useRef, useState } from "react";
-import { FieldPath, FieldValues, UseControllerProps } from "react-hook-form";
+import { FieldPath, FieldValues, UseControllerProps, useWatch } from "react-hook-form";
 
 import { Button, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn";
 import { useEventUtils } from "@/hooks";
@@ -37,9 +37,16 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
   const { prevent, stop } = useEventUtils();
 
   /* 폼 입력 기능 */
+  const formValue = useWatch({ name });
   const areaRef = useRef<HTMLParagraphElement>(null);
   const [isComposing, setIsComposing] = useState(false);
 
+  useEffect(() => {
+    if (!areaRef.current || isComposing) return;
+    if (areaRef.current.innerHTML !== formValue) {
+      areaRef.current.innerHTML = formValue || "";
+    }
+  }, [areaRef, formValue, isComposing]);
 
   /* 파일 기능 */
   const fileRef = useRef<HTMLInputElement>(null);
@@ -54,6 +61,7 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
 
   const addFiles = (files: (File | null)[]) => {
     if (!transferRef.current) return;
+
     for (const file of files) {
       if (!file) throw Error("it is not readable file");
       transferRef.current.items.add(file);
@@ -67,6 +75,7 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
 
   const deleteFile = (idx: number) => {
     if (!transferRef.current) return;
+
     setFileList((prev) => prev.toSpliced(idx, 1));
     transferRef.current.items.remove(idx);
     if (fileRef.current) {
@@ -78,6 +87,7 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
     if (html === "<br>" || html === "<div><br></div>") return "";
     return html;
   };
+
 
   return (
     <FormField
