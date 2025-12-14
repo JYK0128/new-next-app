@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth-server";
 
 export default async function Page() {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session?.user) {
     redirect("/api/auth/login");

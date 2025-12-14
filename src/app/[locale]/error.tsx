@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 
-
 // eslint-disable-next-line sonarjs/no-globals-shadowing
 export default function Error({ reset }: {
   error: Error & { digest?: string }
@@ -18,7 +17,6 @@ export default function Error({ reset }: {
     router.refresh();
     startTransition(reset);
   };
-
 
   return (
     <div>

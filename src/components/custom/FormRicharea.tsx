@@ -7,7 +7,6 @@ import { Button, FormControl, FormField, FormItem, FormLabel, FormMessage } from
 import { useEventUtils } from "@/hooks";
 import { cn } from "@/lib/utils";
 
-
 type Props<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -87,7 +86,6 @@ export function FormRicharea<T extends FieldValues>(props: Props<T>) {
     if (html === "<br>" || html === "<div><br></div>") return "";
     return html;
   };
-
 
   return (
     <FormField

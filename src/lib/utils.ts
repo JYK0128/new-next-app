@@ -3,7 +3,6 @@ import shortID from "short-uuid";
 import { twMerge } from "tailwind-merge";
 import { v7 } from "uuid";
 
-
 /**
  * tailwind 클래스 함수
  */
@@ -34,7 +33,6 @@ export function compress(file: File, quality = 0.8) {
     if ((longestSide + threshold) > 300) return "avatar";
     return "thumbnail";
   }
-
 
   return new Promise<File>((resolve, reject) => {
     const img = new Image();

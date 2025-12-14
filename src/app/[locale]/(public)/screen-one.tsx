@@ -60,7 +60,6 @@ export function ScreenOne() {
       });
     });
 
-
     // 렌더 루프
     function render() {
       if (ctx) {

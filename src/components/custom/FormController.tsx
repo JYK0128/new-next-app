@@ -3,7 +3,6 @@ import { FieldValues, SubmitErrorHandler, SubmitHandler, UseFormReturn } from "r
 
 import { Form } from "@/components/shadcn/form";
 
-
 type Props<TFieldValues extends FieldValues = FieldValues>
   = & Omit<ComponentProps<"form">, "onSubmit" | "onError">
     & {
@@ -11,7 +10,6 @@ type Props<TFieldValues extends FieldValues = FieldValues>
       onSubmit: SubmitHandler<TFieldValues>
       onError?: SubmitErrorHandler<TFieldValues>
     };
-
 
 /** 폼 컨트롤러 */
 export const FormController = forwardRef(

@@ -23,13 +23,11 @@ const fields = z.object({
 });
 type FieldValues = z.infer<typeof fields>;
 
-
 export default function Page() {
   const router = useRouter();
   const locale = useLocale();
   const { id } = useParams();
   const t = useTranslations();
-
 
   const trpc = useTRPC();
   const { data } = useQuery({
@@ -39,7 +37,6 @@ export default function Page() {
   const { mutateAsync: uploadFile } = useMutation(trpc.file.upload.mutationOptions());
   const { mutateAsync: savePost, isPending } = useMutation(trpc.blog.save.mutationOptions());
 
-
   const form = useForm({
     resolver: zodResolver(fields.removeDefault()),
     defaultValues: fields._def.defaultValue(),
@@ -48,7 +45,6 @@ export default function Page() {
   useEffect(() => {
     form.reset(data);
   }, [form, data]);
-
 
   const onSubmit: SubmitHandler<FieldValues> = (fields, evt) => {
     const { submitter } = (evt?.nativeEvent ?? {}) as SubmitEvent;
@@ -65,7 +61,6 @@ export default function Page() {
       }
     }
   };
-
 
   useEffect(() => {
     const handler: OnBeforeUnloadEventHandler = (evt) => {

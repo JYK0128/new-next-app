@@ -14,35 +14,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                    String    @id @map("id")
+  userId                String    @map("user_id")
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at") @db.Timestamp(6)
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at") @db.Timestamp(6)
+  scope                 String?   @map("scope")
+  idToken               String?   @map("id_token")
+  password              String?   @map("password")
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt             DateTime  @map("updated_at") @db.Timestamp(6)
+  metadata              Json?     @map("metadata")
+  appUser               AppUser   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([metadata], map: "idx_account_metadata_gin", type: Gin)
+  @@map("account")
+}
+
 model AppUser {
-  id                                      String       @id @map("id") @db.Uuid
-  sub                                     String       @map("sub") @db.Uuid
-  createdAt                               DateTime     @map("created_at") @db.Timestamp(6)
-  createdBy                               String       @map("created_by") @db.Uuid
+  id                                      String       @id @map("id")
+  name                                    String       @map("name")
+  email                                   String       @map("email")
+  emailVerified                           Boolean      @default(false) @map("email_verified")
+  image                                   String?      @map("image")
+  createdAt                               DateTime     @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt                               DateTime     @map("updated_at") @db.Timestamp(6)
-  updatedBy                               String       @map("updated_by") @db.Uuid
-  deletedAt                               DateTime?    @map("deleted_at") @db.Timestamp(6)
-  deletedBy                               String?      @map("deleted_by") @db.Uuid
   metadata                                Json?        @map("metadata")
+  accounts                                Account[]
   blogPostBlogPostCreatedByToappUsers     BlogPost[]   @relation("blog_post_created_byToapp_user")
   blogPostBlogPostUpdatedByToappUsers     BlogPost[]   @relation("blog_post_updated_byToapp_user")
   fileUploadFileUploadCreatedByToappUsers FileUpload[] @relation("file_upload_created_byToapp_user")
   fileUploadFileUploadUpdatedByToappUsers FileUpload[] @relation("file_upload_updated_byToapp_user")
+  sessions                                Session[]
 
   @@index([metadata], map: "idx_app_user_metadata_gin", type: Gin)
+  @@index([metadata], map: "idx_user_metadata_gin", type: Gin)
   @@map("app_user")
 }
 
 model BlogComment {
-  id        String    @id @map("id") @db.Uuid
-  postId    String    @map("post_id") @db.Uuid
+  id        String    @id @map("id")
+  postId    String    @map("post_id")
   content   String    @map("content")
   createdAt DateTime  @map("created_at") @db.Timestamp(6)
-  createdBy String    @map("created_by") @db.Uuid
+  createdBy String    @map("created_by")
   updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
-  updatedBy String    @map("updated_by") @db.Uuid
+  updatedBy String    @map("updated_by")
   deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
-  deletedBy String?   @map("deleted_by") @db.Uuid
+  deletedBy String?   @map("deleted_by")
   metadata  Json?     @map("metadata")
   blogPost  BlogPost  @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -51,16 +74,16 @@ model BlogComment {
 }
 
 model BlogPost {
-  id                                String        @id @map("id") @db.Uuid
+  id                                String        @id @map("id")
   title                             String        @map("title") @db.VarChar(255)
   content                           String        @map("content")
   thumbnail                         String?       @map("thumbnail")
   createdAt                         DateTime      @map("created_at") @db.Timestamp(6)
-  createdBy                         String        @map("created_by") @db.Uuid
+  createdBy                         String        @map("created_by")
   updatedAt                         DateTime      @map("updated_at") @db.Timestamp(6)
-  updatedBy                         String        @map("updated_by") @db.Uuid
+  updatedBy                         String        @map("updated_by")
   deletedAt                         DateTime?     @map("deleted_at") @db.Timestamp(6)
-  deletedBy                         String?       @map("deleted_by") @db.Uuid
+  deletedBy                         String?       @map("deleted_by")
   metadata                          Json?         @map("metadata")
   blogComments                      BlogComment[]
   appUserBlogPostCreatedByToappUser AppUser       @relation("blog_post_created_byToapp_user", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -71,21 +94,50 @@ model BlogPost {
 }
 
 model FileUpload {
-  id                                  String    @id @map("id") @db.Uuid
+  id                                  String    @id @map("id")
   url                                 String    @map("url")
   name                                String    @map("name") @db.VarChar(255)
   type                                String    @map("type") @db.VarChar(50)
   size                                Int       @map("size")
   createdAt                           DateTime  @map("created_at") @db.Timestamp(6)
-  createdBy                           String    @map("created_by") @db.Uuid
+  createdBy                           String    @map("created_by")
   updatedAt                           DateTime  @map("updated_at") @db.Timestamp(6)
-  updatedBy                           String    @map("updated_by") @db.Uuid
+  updatedBy                           String    @map("updated_by")
   deletedAt                           DateTime? @map("deleted_at") @db.Timestamp(6)
-  deletedBy                           String?   @map("deleted_by") @db.Uuid
+  deletedBy                           String?   @map("deleted_by")
   metadata                            Json?     @map("metadata")
   appUserFileUploadCreatedByToappUser AppUser   @relation("file_upload_created_byToapp_user", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   appUserFileUploadUpdatedByToappUser AppUser   @relation("file_upload_updated_byToapp_user", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([metadata], map: "idx_file_upload_metadata_gin", type: Gin)
   @@map("file_upload")
+}
+
+model Session {
+  id        String   @id @map("id")
+  userId    String   @map("user_id")
+  token     String   @unique @map("token")
+  expiresAt DateTime @map("expires_at") @db.Timestamp(6)
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @map("updated_at") @db.Timestamp(6)
+  metadata  Json?    @map("metadata")
+  appUser   AppUser  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([metadata], map: "idx_session_metadata_gin", type: Gin)
+  @@map("session")
+}
+
+model Verification {
+  id         String   @id @map("id")
+  identifier String   @map("identifier")
+  value      String   @map("value")
+  expiresAt  DateTime @map("expires_at") @db.Timestamp(6)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime @map("updated_at") @db.Timestamp(6)
+  metadata   Json?    @map("metadata")
+
+  @@index([metadata], map: "idx_verification_metadata_gin", type: Gin)
+  @@map("verification")
 }

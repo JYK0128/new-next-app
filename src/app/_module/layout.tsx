@@ -3,7 +3,6 @@ import type { PropsWithChildren } from "react";
 import { Chat } from "@/app/_module/chat";
 import Header from "@/app/_module/header";
 
-
 export default async function Layout({ children }: PropsWithChildren) {
   return (
     <div id="root" className="tw:relative">

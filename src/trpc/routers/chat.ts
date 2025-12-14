@@ -4,7 +4,6 @@ import { z } from "zod";
 import { receiveEvent, sendEvent } from "@/trpc/event";
 import { publicProcedure, router } from "@/trpc/trpc";
 
-
 const model = new ChatGoogleGenerativeAI({
   model: "gemma-3-12b-it",
   apiKey: process.env.GOOGLE_LLM_KEY,

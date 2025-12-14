@@ -1,8 +1,7 @@
 import { z } from "zod";
 
-import { AppUserSchema } from "@/.generated/schema";
+import { UserSchema } from "@/.generated/schema";
 import { publicProcedure, router } from "@/trpc/trpc";
-
 
 export const userRouter = router({
   getAll: publicProcedure
@@ -15,8 +14,8 @@ export const userRouter = router({
     })
     .input(z.object({
     }))
-    .output(AppUserSchema.array())
+    .output(UserSchema.array())
     .query(({ ctx: { prisma } }) => {
-      return prisma.appUser.findMany();
+      return prisma.user.findMany();
     }),
 });

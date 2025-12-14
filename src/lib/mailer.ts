@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 
-
 export const mailer = nodemailer.createTransport({
   service: "gmail",
   secure: true,

@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { isObject } from "lodash-es";
 
-
 function getCauseFromUnknown(cause: unknown): Error | undefined {
   if (cause instanceof Error) {
     return cause;

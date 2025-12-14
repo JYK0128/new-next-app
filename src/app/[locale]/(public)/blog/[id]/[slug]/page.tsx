@@ -6,7 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { toLongId } from "@/lib/utils";
 import { getTrpc } from "@/trpc/server";
 
-
 type Props = {
   params: Promise<{
     id: string

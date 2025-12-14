@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       hostname: "**",
     }],
   },
+  experimental: {
+    authInterrupts: true,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();

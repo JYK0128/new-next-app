@@ -11,7 +11,6 @@ import { useCallbackRef } from "@/hooks";
 import { useTRPC } from "@/lib/trpc";
 import { cn, uuid } from "@/lib/utils";
 
-
 const ChatContext = createContext({
   history: new Map<string, { question: string, answer?: string }>(),
   addRequest: (params: { uid: string, qid: string, content: string }) => {},
@@ -20,7 +19,6 @@ const ChatContext = createContext({
 });
 type ChatContext = typeof ChatContext extends React.Context<infer T> ? T : never;
 const ChatProvider = ChatContext.Provider;
-
 
 const fields = z.object({
   content: z.string().min(1),
@@ -99,7 +97,6 @@ function ChatPrompt({ uid }: Props) {
     form.reset();
   };
 
-
   return (
     <FormController
       form={form}
@@ -110,7 +107,7 @@ function ChatPrompt({ uid }: Props) {
         name="content"
         control={form.control}
         onKeyDown={(e) => {
-          if (!(e.altKey || e.shiftKey) && e.key === "Enter") {
+          if (!e.shiftKey && e.key === "Enter") {
             e.preventDefault();
             const form = e.currentTarget.closest("form");
             const submitter = form?.querySelector("button[name=\"submit\"]");
@@ -168,14 +165,12 @@ export function ChatInner() {
     });
   };
 
-
   return (
     <ChatProvider value={{ history, addRequest, addAnswer, addAnswerStream }}>
       <DialogHeader>
         <DialogTitle>챗봇과 대화하기</DialogTitle>
         <DialogDescription />
       </DialogHeader>
-
 
       <ChatHistory uid={uid.current} />
 

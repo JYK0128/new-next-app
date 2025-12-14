@@ -5,7 +5,6 @@ import { fileRouter } from "@/trpc/routers/upload";
 import { userRouter } from "@/trpc/routers/user";
 import { router } from "@/trpc/trpc";
 
-
 export const appRouter = router({
   user: userRouter,
   chat: chatRouter,

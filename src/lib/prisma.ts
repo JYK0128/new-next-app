@@ -1,6 +1,5 @@
 import { type Prisma, PrismaClient } from "@prisma/client";
 
-
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient
   __prisma_logger_attached__: boolean
@@ -24,11 +23,9 @@ if (
   globalForPrisma.__prisma_logger_attached__ = true;
 }
 
-
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export default prisma;
-
 
 export const withCreate = (id?: string) => ({
   createdBy: id!,

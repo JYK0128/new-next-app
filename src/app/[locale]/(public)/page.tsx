@@ -9,7 +9,6 @@ import { ScreenThree } from "@/app/[locale]/(public)/screen-three";
 import { ScreenTwo } from "@/app/[locale]/(public)/screen-two";
 import { cn } from "@/lib/utils";
 
-
 gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin);
 
 export default function Page() {

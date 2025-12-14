@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { signIn } from "@/auth";
+import { auth } from "@/auth";
 
 export async function GET() {
-  const res = await signIn("keycloak", {
-    redirect: false,
-    redirectTo: process.env.NEXT_SITE_URL,
-  });
+  const res = await auth.api.signInWithOAuth2({ body: { providerId: "keycloak" } });
 
-  return NextResponse.redirect(res);
+  return NextResponse.redirect(res.url);
 }

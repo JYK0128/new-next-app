@@ -1,7 +1,6 @@
 "use client";
 
 import { defaultShouldDehydrateQuery, QueryClientProvider } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
 import type { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 import SuperJSON from "superjson";
@@ -33,13 +32,11 @@ export function Providers({ children }: PropsWithChildren) {
   return (
     <>
       <ErrorBoundary>
-        <SessionProvider>
-          <QueryClientProvider client={queryClient}>
-            <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-              {children}
-            </TRPCProvider>
-          </QueryClientProvider>
-        </SessionProvider>
+        <QueryClientProvider client={queryClient}>
+          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+            {children}
+          </TRPCProvider>
+        </QueryClientProvider>
       </ErrorBoundary>
       <MessageProvider />
       <Toaster position="top-center" />

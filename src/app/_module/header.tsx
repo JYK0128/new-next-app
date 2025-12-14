@@ -2,12 +2,12 @@
 
 import { Globe, LogOut, Search } from "lucide-react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import type { Locale } from "next-intl";
 import { useRef } from "react";
 
 import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
@@ -15,7 +15,6 @@ export default function Header() {
   const pathname = usePathname();
   const searchRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
-
 
   const toggleSearch = () => searchRef.current?.classList.toggle("tw:hidden");
   const switchLanguage = (locale: Locale) => router.push(pathname, { locale });

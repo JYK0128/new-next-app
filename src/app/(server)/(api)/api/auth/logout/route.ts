@@ -1,26 +1,28 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
+import { NextError } from "@/lib/error";
 
-export async function GET() {
-  const session = await auth();
+export async function GET({ headers }: NextRequest) {
+  try {
+    const { idToken } = await auth.api.getAccessToken({
+      headers,
+      body: { providerId: "keycloak" },
+    });
 
-  if (!session?.user?.idToken) {
-    return NextResponse.redirect(process.env.NEXT_SITE_URL);
+    if (!idToken) {
+      throw new NextError({ code: "UNAUTHORIZED" });
+    }
+
+    await auth.api.signOut({ headers });
+
+    const signoutURL = new URL(`${process.env.AUTH_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`);
+    signoutURL.searchParams.set("id_token_hint", idToken);
+    signoutURL.searchParams.set("post_logout_redirect_uri", process.env.NEXT_SITE_URL);
+
+    return NextResponse.redirect(signoutURL);
   }
-
-  // auth 세션
-  await signOut({
-    redirect: false,
-    redirectTo: process.env.NEXT_SITE_URL,
-  });
-
-  // keycloak 세션
-  const signoutURL = new URL(`${process.env.AUTH_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`);
-  signoutURL.searchParams.set("id_token_hint", session.user?.idToken);
-  signoutURL.searchParams.set("post_logout_redirect_uri", process.env.NEXT_SITE_URL);
-
-  const response = NextResponse.redirect(signoutURL);
-
-  return response;
+  catch {
+    return NextResponse.redirect(new URL("/", process.env.NEXT_SITE_URL));
+  }
 }

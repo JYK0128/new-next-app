@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-export default function Page() {
+export default function UnauthorizedPage() {
   return (
     <div>
-      <h2>Not Found</h2>
+      <h2>Unauthorized</h2>
       <Link href="/">Return Home</Link>
     </div>
   );

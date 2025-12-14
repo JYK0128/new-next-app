@@ -3,7 +3,6 @@ import Image, { type ImageProps } from "next/image";
 import { AspectRatio } from "@/components/shadcn";
 import { cn } from "@/lib/utils";
 
-
 type Props = Omit<ImageProps, "src" | "alt">
   & { src: Nullish<string>, alt?: Optional<string>, ratio?: number };
 

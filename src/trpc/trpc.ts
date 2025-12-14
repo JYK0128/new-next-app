@@ -4,7 +4,6 @@ import type { OpenApiMeta } from "trpc-to-openapi";
 
 import type { Context } from "@/trpc/context";
 
-
 const t = initTRPC
   .context<Context>()
   .meta<OpenApiMeta>()
@@ -24,4 +23,3 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
 
   return next({ ctx: { ...ctx, user } });
 });
-
